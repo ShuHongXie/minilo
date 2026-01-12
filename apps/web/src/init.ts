@@ -2,7 +2,7 @@ import { router } from './router'
 import { createApp, watchEffect } from 'vue'
 import { initI18n } from '@minilo/locales'
 import { initPersistStores } from '@minilo/store/init'
-import { useTitle } from '@minilo/utils'
+import { useTitle } from '@minilo/store'
 import { ElLoading } from 'element-plus'
 import * as echarts from 'echarts' // 引入echarts
 

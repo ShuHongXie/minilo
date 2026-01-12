@@ -10,10 +10,7 @@ export const MiniloUiResolver = () => {
         return {
           name,
           from: `@${libraryName}/ui/es/${componentName}`,
-          sideEffects: [
-            'element-plus/theme-chalk/index.css',
-            `@${libraryName}/ui/theme-chalk/ml-${componentName}`
-          ]
+          sideEffects: [`@${libraryName}/ui/theme-chalk/ml-${componentName}`]
         }
       }
       return null

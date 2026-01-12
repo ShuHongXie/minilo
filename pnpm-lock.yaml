@@ -27,6 +27,9 @@ catalogs:
     '@iconify/vue':
       specifier: 5.0.0
       version: 5.0.0
+    '@minilo/utils':
+      specifier: ^0.0.4
+      version: 0.0.4
     '@nestjs/config':
       specifier: ^4.0.2
       version: 4.0.2
@@ -149,8 +152,6 @@ catalogs:
       version: 0.18.5
 
 overrides:
-  '@minilo/ui': ^0.0.2
-  '@minilo/utils': ^0.0.2
   '@vueuse/core': 13.9.0
   '@vueuse/shared': 13.9.0
 
@@ -377,11 +378,11 @@ importers:
         specifier: workspace:^
         version: link:../../packages/store
       '@minilo/ui':
-        specifier: ^0.0.2
-        version: 0.0.2(vue@3.5.26(typescript@5.8.3))
+        specifier: ^0.0.6
+        version: 0.0.6(vue@3.5.26(typescript@5.8.3))
       '@minilo/utils':
-        specifier: ^0.0.2
-        version: 0.0.2(vue@3.5.26(typescript@5.8.3))
+        specifier: ^0.0.7
+        version: 0.0.7(vue@3.5.26(typescript@5.8.3))
       '@types/nprogress':
         specifier: 'catalog:'
         version: 0.2.3
@@ -483,8 +484,8 @@ importers:
         specifier: workspace:^
         version: link:../store
       '@minilo/utils':
-        specifier: ^0.0.2
-        version: 0.0.2(vue@3.5.26(typescript@5.8.3))
+        specifier: workspace:^
+        version: link:../utils
       element-plus:
         specifier: 'catalog:'
         version: 2.13.0(vue@3.5.26(typescript@5.8.3))
@@ -550,8 +551,8 @@ importers:
   packages/store:
     dependencies:
       '@minilo/utils':
-        specifier: ^0.0.2
-        version: 0.0.2(vue@3.5.26(typescript@5.9.3))
+        specifier: 'catalog:'
+        version: 0.0.4(vue@3.5.26(typescript@5.9.3))
       element-plus:
         specifier: 'catalog:'
         version: 2.13.0(vue@3.5.26(typescript@5.9.3))
@@ -599,8 +600,8 @@ importers:
         version: 1.1.4
     devDependencies:
       '@minilo/utils':
-        specifier: ^0.0.2
-        version: 0.0.2(vue@3.5.26(typescript@5.9.3))
+        specifier: workspace:*
+        version: link:../utils
       '@rollup/plugin-commonjs':
         specifier: ^29.0.0
         version: 29.0.0(rollup@4.52.5)
@@ -2021,8 +2022,14 @@ packages:
   '@floating-ui/core@1.7.2':
     resolution: {integrity: sha512-wNB5ooIKHQc+Kui96jE/n69rHFWAVoxn5CAzL1Xdd8FG03cgY3MLO+GF9U3W737fYDSgPWA6MReKhBQBop6Pcw==}
 
+  '@floating-ui/core@1.7.3':
+    resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
+
   '@floating-ui/dom@1.7.2':
     resolution: {integrity: sha512-7cfaOQuCS27HD7DX+6ib2OrnW+b4ZBwDNnCcT0uTyidcmyWb03FnQqJybDBoCnpdxwBSfA94UAYlRCt7mV+TbA==}
+
+  '@floating-ui/dom@1.7.4':
+    resolution: {integrity: sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA==}
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
@@ -2401,13 +2408,18 @@ packages:
   '@microsoft/tsdoc@0.15.1':
     resolution: {integrity: sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==}
 
-  '@minilo/ui@0.0.2':
-    resolution: {integrity: sha512-cG60/NReCq8kRrtqIKJie5mdD8HfBg8CUEL0jOaPN5lLdorrRDbHK9BKmr6Rdd0suHsUIrfHfUz/T+wu+JRpIA==}
+  '@minilo/ui@0.0.6':
+    resolution: {integrity: sha512-vI6lI3zWsUEbYtuwkkAHt/sx2BiTRHZAhMntToldTF9lWeBv4ZpLx2nIPTEp5/Jk1oFrVKwxfHeVvSrQmXJlHA==}
     peerDependencies:
       vue: ^3.5.17
 
-  '@minilo/utils@0.0.2':
-    resolution: {integrity: sha512-1+tb7MW4xu5dMV2EcBA310KWCkKY5hN5x5wUtQvnKneVA9BqJhwB4wtz5/NoC2oXAZyiu7ovn3OZSswvqIgu1w==}
+  '@minilo/utils@0.0.4':
+    resolution: {integrity: sha512-2wIrcp077FkSe2fSO204iWbY1Ttr/ETmwDbUNS9/EzAJoS3bX39gz73tTPAoeSPZZgR7iKLt89nONH5Xcg9slw==}
+    peerDependencies:
+      vue: ^3.5.17
+
+  '@minilo/utils@0.0.7':
+    resolution: {integrity: sha512-8fpiO6VvT4wIymQwR7M4YV9ds/QwyCgRCcaBHMLHFl7viYtaM1amANaRb8UaVG1UFJGVBMi4o/JAdsEzeAMWkw==}
     peerDependencies:
       vue: ^3.5.17
 
@@ -3171,6 +3183,9 @@ packages:
 
   '@types/lodash@4.17.20':
     resolution: {integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==}
+
+  '@types/lodash@4.17.23':
+    resolution: {integrity: sha512-RDvF6wTulMPjrNdCoYRC8gNR880JNGT8uB+REUpC2Ns4pRqQJhGz90wh7rgdXDPpCczF3VGktDuFGVnz8zP7HA==}
 
   '@types/markdown-it@14.1.2':
     resolution: {integrity: sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==}
@@ -5141,6 +5156,10 @@ packages:
     resolution: {integrity: sha512-ca9pw9fomFcKPvFLXhBKUK90ZvGibiGOvRJNbjljY7s7uq/5YO4BOzcYtJqExdx99rF6aAcnRxHmcUHcz6sQsg==}
     engines: {node: '>=0.10'}
 
+  esquery@1.7.0:
+    resolution: {integrity: sha512-Ap6G0WQwcU/LHsvLwON1fAQX9Zp0A2Y6Y/cJBl9r/JbW90Zyg4/zbG6zzKa2OTALELarYHmKu0GhpM5EO+7T0g==}
+    engines: {node: '>=0.10'}
+
   esrecurse@4.3.0:
     resolution: {integrity: sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==}
     engines: {node: '>=4.0'}
@@ -6555,9 +6574,6 @@ packages:
   locate-path@7.2.0:
     resolution: {integrity: sha512-gvVijfZvn7R+2qyPX8mAuKcFGDf6Nc61GdvGafQsHL0sBIxfKzA+usWn4GFC/bk+QdwPUD4kWFJLhElipq+0VA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
-  lodash-es@4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
 
   lodash-es@4.17.22:
     resolution: {integrity: sha512-XEawp1t0gxSi9x01glktRZ5HDy0HXqrM0x5pXQM98EaI0NxO6jVM7omDOxsuEo5UIASAnm2bRp1Jt/e0a2XU8Q==}
@@ -10737,9 +10753,18 @@ snapshots:
     dependencies:
       '@floating-ui/utils': 0.2.10
 
+  '@floating-ui/core@1.7.3':
+    dependencies:
+      '@floating-ui/utils': 0.2.10
+
   '@floating-ui/dom@1.7.2':
     dependencies:
       '@floating-ui/core': 1.7.2
+      '@floating-ui/utils': 0.2.10
+
+  '@floating-ui/dom@1.7.4':
+    dependencies:
+      '@floating-ui/core': 1.7.3
       '@floating-ui/utils': 0.2.10
 
   '@floating-ui/utils@0.2.10': {}
@@ -11257,26 +11282,16 @@ snapshots:
 
   '@microsoft/tsdoc@0.15.1': {}
 
-  '@minilo/ui@0.0.2(vue@3.5.26(typescript@5.8.3))':
+  '@minilo/ui@0.0.6(vue@3.5.26(typescript@5.8.3))':
     dependencies:
+      '@element-plus/icons-vue': 2.3.1(vue@3.5.26(typescript@5.8.3))
       '@iconify/vue': 5.0.0(vue@3.5.26(typescript@5.8.3))
-      element-plus: 2.10.4(vue@3.5.26(typescript@5.8.3))
-      vue: 3.5.26(typescript@5.8.3)
-
-  '@minilo/utils@0.0.2(vue@3.5.26(typescript@5.8.3))':
-    dependencies:
-      '@ctrl/tinycolor': 4.2.0
       '@vueuse/core': 13.9.0(vue@3.5.26(typescript@5.8.3))
-      axios: 1.13.2
-      defu: 6.1.4
-      element-plus: 2.10.4(vue@3.5.26(typescript@5.8.3))
-      lodash.clonedeep: 4.5.0
-      theme-colors: 0.1.0
+      element-plus: 2.13.0(vue@3.5.26(typescript@5.8.3))
       vue: 3.5.26(typescript@5.8.3)
-    transitivePeerDependencies:
-      - debug
+      vue-cropper: 1.1.4
 
-  '@minilo/utils@0.0.2(vue@3.5.26(typescript@5.9.3))':
+  '@minilo/utils@0.0.4(vue@3.5.26(typescript@5.9.3))':
     dependencies:
       '@ctrl/tinycolor': 4.2.0
       '@vueuse/core': 13.9.0(vue@3.5.26(typescript@5.9.3))
@@ -11286,6 +11301,20 @@ snapshots:
       lodash.clonedeep: 4.5.0
       theme-colors: 0.1.0
       vue: 3.5.26(typescript@5.9.3)
+    transitivePeerDependencies:
+      - debug
+
+  '@minilo/utils@0.0.7(vue@3.5.26(typescript@5.8.3))':
+    dependencies:
+      '@ctrl/tinycolor': 4.2.0
+      '@vueuse/core': 13.9.0(vue@3.5.26(typescript@5.8.3))
+      axios: 1.13.2
+      defu: 6.1.4
+      element-plus: 2.13.0(vue@3.5.26(typescript@5.8.3))
+      lodash-es: 4.17.22
+      lodash.clonedeep: 4.5.0
+      theme-colors: 0.1.0
+      vue: 3.5.26(typescript@5.8.3)
     transitivePeerDependencies:
       - debug
 
@@ -11975,6 +12004,8 @@ snapshots:
       '@types/lodash': 4.17.20
 
   '@types/lodash@4.17.20': {}
+
+  '@types/lodash@4.17.23': {}
 
   '@types/markdown-it@14.1.2':
     dependencies:
@@ -13905,40 +13936,21 @@ snapshots:
 
   electron-to-chromium@1.5.240: {}
 
-  element-plus@2.10.4(vue@3.5.26(typescript@5.8.3)):
-    dependencies:
-      '@ctrl/tinycolor': 3.6.1
-      '@element-plus/icons-vue': 2.3.2(vue@3.5.26(typescript@5.8.3))
-      '@floating-ui/dom': 1.7.2
-      '@popperjs/core': '@sxzz/popperjs-es@2.11.7'
-      '@types/lodash': 4.17.20
-      '@types/lodash-es': 4.17.12
-      '@vueuse/core': 13.9.0(vue@3.5.26(typescript@5.8.3))
-      async-validator: 4.2.5
-      dayjs: 1.11.19
-      escape-html: 1.0.3
-      lodash: 4.17.21
-      lodash-es: 4.17.21
-      lodash-unified: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
-      memoize-one: 6.0.0
-      normalize-wheel-es: 1.2.0
-      vue: 3.5.26(typescript@5.8.3)
-
   element-plus@2.10.4(vue@3.5.26(typescript@5.9.3)):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
       '@element-plus/icons-vue': 2.3.2(vue@3.5.26(typescript@5.9.3))
-      '@floating-ui/dom': 1.7.2
+      '@floating-ui/dom': 1.7.4
       '@popperjs/core': '@sxzz/popperjs-es@2.11.7'
-      '@types/lodash': 4.17.20
+      '@types/lodash': 4.17.23
       '@types/lodash-es': 4.17.12
       '@vueuse/core': 13.9.0(vue@3.5.26(typescript@5.9.3))
       async-validator: 4.2.5
       dayjs: 1.11.19
       escape-html: 1.0.3
       lodash: 4.17.21
-      lodash-es: 4.17.21
-      lodash-unified: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
+      lodash-es: 4.17.22
+      lodash-unified: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.22)(lodash@4.17.21)
       memoize-one: 6.0.0
       normalize-wheel-es: 1.2.0
       vue: 3.5.26(typescript@5.9.3)
@@ -14269,6 +14281,10 @@ snapshots:
   esprima@4.0.1: {}
 
   esquery@1.6.0:
+    dependencies:
+      estraverse: 5.3.0
+
+  esquery@1.7.0:
     dependencies:
       estraverse: 5.3.0
 
@@ -16041,15 +16057,7 @@ snapshots:
     dependencies:
       p-locate: 6.0.0
 
-  lodash-es@4.17.21: {}
-
   lodash-es@4.17.22: {}
-
-  lodash-unified@1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21):
-    dependencies:
-      '@types/lodash-es': 4.17.12
-      lodash: 4.17.21
-      lodash-es: 4.17.21
 
   lodash-unified@1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.22)(lodash@4.17.21):
     dependencies:
@@ -18746,7 +18754,7 @@ snapshots:
       eslint-scope: 8.4.0
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
-      esquery: 1.6.0
+      esquery: 1.7.0
       semver: 7.7.3
     transitivePeerDependencies:
       - supports-color

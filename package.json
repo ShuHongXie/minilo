@@ -73,8 +73,6 @@
   },
   "pnpm": {
     "overrides": {
-      "@minilo/ui": "^0.0.2",
-      "@minilo/utils": "^0.0.2",
       "@vueuse/core": "13.9.0",
       "@vueuse/shared": "13.9.0"
     }

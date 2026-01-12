@@ -1,8 +1,9 @@
 import type { RouteMeta, RouteRecordRaw } from 'vue-router'
 import { cloneDeep } from '@minilo/utils'
-import Layout from '#/views/@core/Layout.vue'
+import Layout from '#/views/core/Layout.vue'
 // 匹配views里面所有的.vue文件
 const modules = import.meta.glob('../views/**/*.vue')
+console.log(modules)
 
 export const generateRoutes = (routerData: RouteRecordRaw[]) => {
   let data = cloneDeep(routerData)
