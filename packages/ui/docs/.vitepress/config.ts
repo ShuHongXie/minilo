@@ -104,7 +104,18 @@ export default defineConfig({
       },
       {
         text: '@minilo/utils 工具库',
-        items: [{ text: 'Request 请求工具', link: '/utils/request' }]
+        items: [
+          { text: 'Request 请求工具', link: '/utils/request' },
+          {
+            text: 'Hooks 工具',
+            link: '/utils/hooks/',
+            items: [
+              { text: 'useScroll 滚动钩子', link: '/utils/hooks/use-scroll' },
+              { text: 'useCountDown 倒计时钩子', link: '/utils/hooks/use-count-down' },
+              { text: 'useChartResize 图表尺寸调整钩子', link: '/utils/hooks/use-chart-resize' }
+            ]
+          }
+        ]
       }
     ],
 
