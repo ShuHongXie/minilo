@@ -1,5 +1,11 @@
 # @minilo/ui
 
+## 0.0.6
+
+### Patch Changes
+
+- utils子包initRequestInstance方法改造
+
 ## 0.0.5
 
 ### Patch Changes

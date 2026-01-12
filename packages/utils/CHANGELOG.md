@@ -1,5 +1,17 @@
 # @minilo/utils
 
+## 0.0.7
+
+### Patch Changes
+
+- 增加hooks文件夹的全局导入
+
+## 0.0.6
+
+### Patch Changes
+
+- utils子包initRequestInstance方法改造
+
 ## 0.0.5
 
 ### Patch Changes
