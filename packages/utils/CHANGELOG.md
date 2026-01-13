@@ -1,5 +1,11 @@
 # @minilo/utils
 
+## 0.0.9
+
+### Patch Changes
+
+- 新增import导入
+
 ## 0.0.8
 
 ### Patch Changes

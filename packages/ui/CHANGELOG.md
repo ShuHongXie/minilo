@@ -1,5 +1,11 @@
 # @minilo/ui
 
+## 0.0.7
+
+### Patch Changes
+
+- 更新ui子包版本
+
 ## 0.0.6
 
 ### Patch Changes
