@@ -31,7 +31,7 @@ import { MockModule } from './modules/mock/mock.module'
         host: configService.get<string>('MYSQL_HOST'),
         port: 3306, // 端口号
         username: 'root', // 用户名
-        password: '123456', // 密码
+        password: '13005322685', // 密码
         database: configService.get<string>('MYSQL_DATABASE'),
         entities: ['**/*.entity.js'], //数据库对应的Entity
         autoLoadEntities: true,
