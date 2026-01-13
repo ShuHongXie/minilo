@@ -381,8 +381,8 @@ importers:
         specifier: ^0.0.6
         version: 0.0.6(vue@3.5.26(typescript@5.8.3))
       '@minilo/utils':
-        specifier: ^0.0.7
-        version: 0.0.7(vue@3.5.26(typescript@5.8.3))
+        specifier: ^0.0.8
+        version: 0.0.8(vue@3.5.26(typescript@5.8.3))
       '@types/nprogress':
         specifier: 'catalog:'
         version: 0.2.3
@@ -2418,8 +2418,8 @@ packages:
     peerDependencies:
       vue: ^3.5.17
 
-  '@minilo/utils@0.0.7':
-    resolution: {integrity: sha512-8fpiO6VvT4wIymQwR7M4YV9ds/QwyCgRCcaBHMLHFl7viYtaM1amANaRb8UaVG1UFJGVBMi4o/JAdsEzeAMWkw==}
+  '@minilo/utils@0.0.8':
+    resolution: {integrity: sha512-SvxQ82joHyuUPkkPIVU9IFzGU45r/29NDq2eWQcspmEZ653B5cLluGuL54YbZ4p/AVji9BWDvEfEQWFv4u6NTQ==}
     peerDependencies:
       vue: ^3.5.17
 
@@ -11304,7 +11304,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@minilo/utils@0.0.7(vue@3.5.26(typescript@5.8.3))':
+  '@minilo/utils@0.0.8(vue@3.5.26(typescript@5.8.3))':
     dependencies:
       '@ctrl/tinycolor': 4.2.0
       '@vueuse/core': 13.9.0(vue@3.5.26(typescript@5.8.3))
