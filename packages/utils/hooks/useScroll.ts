@@ -9,7 +9,7 @@ interface ScrollOptions {
   throttleTime?: number
 }
 
-export default function useScroll(options: ScrollOptions = {}) {
+export function useScroll(options: ScrollOptions = {}) {
   const {
     container = window,
     initialThreshold = 0,

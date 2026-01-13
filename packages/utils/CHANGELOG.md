@@ -1,5 +1,11 @@
 # @minilo/utils
 
+## 0.0.8
+
+### Patch Changes
+
+- utils子包的hooks导入变更为模块导入
+
 ## 0.0.7
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 import { computed, onUnmounted, ref } from 'vue'
 
-export default function useCountdown(seconds: number) {
+export function useCountdown(seconds: number) {
   // 剩余秒数
   const remaining = ref(seconds)
   // 倒计时状态

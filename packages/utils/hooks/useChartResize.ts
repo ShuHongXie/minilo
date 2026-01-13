@@ -17,7 +17,7 @@ export interface UseChartResizeReturn<T extends ChartInstance = ChartInstance> {
  * @param {(container: HTMLElement) => T} initChart 图表初始化函数
  * @return {*}  {UseChartResizeReturn<T>} 图表实例和刷新方法
  */
-export default function useChartResize<T extends ChartInstance = ChartInstance>(
+export function useChartResize<T extends ChartInstance = ChartInstance>(
   container: string | HTMLElement,
   initChart: (container: HTMLElement) => T
 ): UseChartResizeReturn<T> {
