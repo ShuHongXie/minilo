@@ -1,5 +1,17 @@
 # @minilo/ui
 
+## 0.0.9
+
+### Patch Changes
+
+- 修复遗失的minilo文件夹
+
+## 0.0.8
+
+### Patch Changes
+
+- 更新对应utils子包版本
+
 ## 0.0.7
 
 ### Patch Changes

@@ -27,9 +27,6 @@ catalogs:
     '@iconify/vue':
       specifier: 5.0.0
       version: 5.0.0
-    '@minilo/utils':
-      specifier: ^0.0.4
-      version: 0.0.4
     '@nestjs/config':
       specifier: ^4.0.2
       version: 4.0.2
@@ -154,6 +151,8 @@ catalogs:
 overrides:
   '@vueuse/core': 13.9.0
   '@vueuse/shared': 13.9.0
+  '@minilo/utils': ^0.0.9
+  '@minilo/ui': ^0.0.9
 
 importers:
 
@@ -378,8 +377,8 @@ importers:
         specifier: workspace:^
         version: link:../../packages/store
       '@minilo/ui':
-        specifier: ^0.0.7
-        version: 0.0.7(vue@3.5.26(typescript@5.8.3))
+        specifier: ^0.0.9
+        version: 0.0.9(vue@3.5.26(typescript@5.8.3))
       '@minilo/utils':
         specifier: ^0.0.9
         version: 0.0.9(vue@3.5.26(typescript@5.8.3))
@@ -484,8 +483,8 @@ importers:
         specifier: workspace:^
         version: link:../store
       '@minilo/utils':
-        specifier: workspace:^
-        version: link:../utils
+        specifier: ^0.0.9
+        version: 0.0.9(vue@3.5.26(typescript@5.8.3))
       element-plus:
         specifier: 'catalog:'
         version: 2.13.0(vue@3.5.26(typescript@5.8.3))
@@ -551,8 +550,8 @@ importers:
   packages/store:
     dependencies:
       '@minilo/utils':
-        specifier: 'catalog:'
-        version: 0.0.4(vue@3.5.26(typescript@5.9.3))
+        specifier: ^0.0.9
+        version: 0.0.9(vue@3.5.26(typescript@5.9.3))
       element-plus:
         specifier: 'catalog:'
         version: 2.13.0(vue@3.5.26(typescript@5.9.3))
@@ -600,8 +599,8 @@ importers:
         version: 1.1.4
     devDependencies:
       '@minilo/utils':
-        specifier: workspace:*
-        version: link:../utils
+        specifier: ^0.0.9
+        version: 0.0.9(vue@3.5.26(typescript@5.9.3))
       '@rollup/plugin-commonjs':
         specifier: ^29.0.0
         version: 29.0.0(rollup@4.52.5)
@@ -2022,14 +2021,8 @@ packages:
   '@floating-ui/core@1.7.2':
     resolution: {integrity: sha512-wNB5ooIKHQc+Kui96jE/n69rHFWAVoxn5CAzL1Xdd8FG03cgY3MLO+GF9U3W737fYDSgPWA6MReKhBQBop6Pcw==}
 
-  '@floating-ui/core@1.7.3':
-    resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
-
   '@floating-ui/dom@1.7.2':
     resolution: {integrity: sha512-7cfaOQuCS27HD7DX+6ib2OrnW+b4ZBwDNnCcT0uTyidcmyWb03FnQqJybDBoCnpdxwBSfA94UAYlRCt7mV+TbA==}
-
-  '@floating-ui/dom@1.7.4':
-    resolution: {integrity: sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA==}
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
@@ -2408,13 +2401,8 @@ packages:
   '@microsoft/tsdoc@0.15.1':
     resolution: {integrity: sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==}
 
-  '@minilo/ui@0.0.7':
-    resolution: {integrity: sha512-SqfWNhy8rCbC6tuNJQHise7OdycUNVcQ4+tPZLD9j/v1LPjnQJH/7bpKBA7uzxNlmIHyTXPEDBIG+vyWiMdhIA==}
-    peerDependencies:
-      vue: ^3.5.17
-
-  '@minilo/utils@0.0.4':
-    resolution: {integrity: sha512-2wIrcp077FkSe2fSO204iWbY1Ttr/ETmwDbUNS9/EzAJoS3bX39gz73tTPAoeSPZZgR7iKLt89nONH5Xcg9slw==}
+  '@minilo/ui@0.0.9':
+    resolution: {integrity: sha512-OLunrDihdS4T44mGeUJnoRlXnV8gOmRAM/Nj2VA42FRtE1GpXOsWMCCekXhIJ5KakSGIi4PQpubGa0VJR63Gvg==}
     peerDependencies:
       vue: ^3.5.17
 
@@ -3155,9 +3143,6 @@ packages:
 
   '@types/lodash@4.17.20':
     resolution: {integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==}
-
-  '@types/lodash@4.17.23':
-    resolution: {integrity: sha512-RDvF6wTulMPjrNdCoYRC8gNR880JNGT8uB+REUpC2Ns4pRqQJhGz90wh7rgdXDPpCczF3VGktDuFGVnz8zP7HA==}
 
   '@types/markdown-it@14.1.2':
     resolution: {integrity: sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==}
@@ -4912,11 +4897,6 @@ packages:
 
   electron-to-chromium@1.5.240:
     resolution: {integrity: sha512-OBwbZjWgrCOH+g6uJsA2/7Twpas2OlepS9uvByJjR2datRDuKGYeD+nP8lBBks2qnB7bGJNHDUx7c/YLaT3QMQ==}
-
-  element-plus@2.10.4:
-    resolution: {integrity: sha512-UD4elWHrCnp1xlPhbXmVcaKFLCRaRAY6WWRwemGfGW3ceIjXm9fSYc9RNH3AiOEA6Ds1p9ZvhCs76CR9J8Vd+A==}
-    peerDependencies:
-      vue: ^3.2.0
 
   element-plus@2.13.0:
     resolution: {integrity: sha512-qjxS+SBChvqCl6lU6ShiliLMN6WqFHiXQENYbAY3GKNflG+FS3jqn8JmQq0CBZq4koFqsi95NT1M6SL4whZfrA==}
@@ -10713,18 +10693,9 @@ snapshots:
     dependencies:
       '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/core@1.7.3':
-    dependencies:
-      '@floating-ui/utils': 0.2.10
-
   '@floating-ui/dom@1.7.2':
     dependencies:
       '@floating-ui/core': 1.7.2
-      '@floating-ui/utils': 0.2.10
-
-  '@floating-ui/dom@1.7.4':
-    dependencies:
-      '@floating-ui/core': 1.7.3
       '@floating-ui/utils': 0.2.10
 
   '@floating-ui/utils@0.2.10': {}
@@ -11242,7 +11213,7 @@ snapshots:
 
   '@microsoft/tsdoc@0.15.1': {}
 
-  '@minilo/ui@0.0.7(vue@3.5.26(typescript@5.8.3))':
+  '@minilo/ui@0.0.9(vue@3.5.26(typescript@5.8.3))':
     dependencies:
       '@element-plus/icons-vue': 2.3.1(vue@3.5.26(typescript@5.8.3))
       '@iconify/vue': 5.0.0(vue@3.5.26(typescript@5.8.3))
@@ -11250,19 +11221,6 @@ snapshots:
       element-plus: 2.13.0(vue@3.5.26(typescript@5.8.3))
       vue: 3.5.26(typescript@5.8.3)
       vue-cropper: 1.1.4
-
-  '@minilo/utils@0.0.4(vue@3.5.26(typescript@5.9.3))':
-    dependencies:
-      '@ctrl/tinycolor': 4.2.0
-      '@vueuse/core': 13.9.0(vue@3.5.26(typescript@5.9.3))
-      axios: 1.13.2
-      defu: 6.1.4
-      element-plus: 2.10.4(vue@3.5.26(typescript@5.9.3))
-      lodash.clonedeep: 4.5.0
-      theme-colors: 0.1.0
-      vue: 3.5.26(typescript@5.9.3)
-    transitivePeerDependencies:
-      - debug
 
   '@minilo/utils@0.0.9(vue@3.5.26(typescript@5.8.3))':
     dependencies:
@@ -11275,6 +11233,20 @@ snapshots:
       lodash.clonedeep: 4.5.0
       theme-colors: 0.1.0
       vue: 3.5.26(typescript@5.8.3)
+    transitivePeerDependencies:
+      - debug
+
+  '@minilo/utils@0.0.9(vue@3.5.26(typescript@5.9.3))':
+    dependencies:
+      '@ctrl/tinycolor': 4.2.0
+      '@vueuse/core': 13.9.0(vue@3.5.26(typescript@5.9.3))
+      axios: 1.13.2
+      defu: 6.1.4
+      element-plus: 2.13.0(vue@3.5.26(typescript@5.9.3))
+      lodash-es: 4.17.22
+      lodash.clonedeep: 4.5.0
+      theme-colors: 0.1.0
+      vue: 3.5.26(typescript@5.9.3)
     transitivePeerDependencies:
       - debug
 
@@ -11964,8 +11936,6 @@ snapshots:
       '@types/lodash': 4.17.20
 
   '@types/lodash@4.17.20': {}
-
-  '@types/lodash@4.17.23': {}
 
   '@types/markdown-it@14.1.2':
     dependencies:
@@ -13895,25 +13865,6 @@ snapshots:
   electron-to-chromium@1.5.200: {}
 
   electron-to-chromium@1.5.240: {}
-
-  element-plus@2.10.4(vue@3.5.26(typescript@5.9.3)):
-    dependencies:
-      '@ctrl/tinycolor': 3.6.1
-      '@element-plus/icons-vue': 2.3.2(vue@3.5.26(typescript@5.9.3))
-      '@floating-ui/dom': 1.7.4
-      '@popperjs/core': '@sxzz/popperjs-es@2.11.7'
-      '@types/lodash': 4.17.23
-      '@types/lodash-es': 4.17.12
-      '@vueuse/core': 13.9.0(vue@3.5.26(typescript@5.9.3))
-      async-validator: 4.2.5
-      dayjs: 1.11.19
-      escape-html: 1.0.3
-      lodash: 4.17.21
-      lodash-es: 4.17.22
-      lodash-unified: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.22)(lodash@4.17.21)
-      memoize-one: 6.0.0
-      normalize-wheel-es: 1.2.0
-      vue: 3.5.26(typescript@5.9.3)
 
   element-plus@2.13.0(vue@3.5.26(typescript@5.8.3)):
     dependencies:

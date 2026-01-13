@@ -74,7 +74,9 @@
   "pnpm": {
     "overrides": {
       "@vueuse/core": "13.9.0",
-      "@vueuse/shared": "13.9.0"
+      "@vueuse/shared": "13.9.0",
+      "@minilo/utils": "^0.0.9",
+      "@minilo/ui": "^0.0.9"
     }
   }
 }

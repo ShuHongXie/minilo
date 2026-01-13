@@ -1,6 +1,6 @@
 {
   "name": "@minilo/ui",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,8 +23,7 @@
     "#/*": "./src/*"
   },
   "files": [
-    "minilo/",
-    "README.md"
+    "minilo/"
   ],
   "exports": {
     ".": {

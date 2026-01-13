@@ -22,7 +22,7 @@
     "@minilo/core": "workspace:^",
     "@minilo/locales": "workspace:*",
     "@minilo/store": "workspace:^",
-    "@minilo/ui": "^0.0.7",
+    "@minilo/ui": "^0.0.9",
     "@minilo/utils": "^0.0.9",
     "@types/nprogress": "catalog:",
     "echarts": "^6.0.0",

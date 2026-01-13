@@ -13,13 +13,13 @@ import { analyzer } from 'vite-bundle-analyzer'
 
 export default defineConfig(({ mode }) => ({
   build: {
-    // minify: 'terser'
-    // terserOptions: {
-    //   compress: {
-    //     drop_console: true, // 生产环境移除console
-    //     drop_debugger: true // 移除debugger
-    //   }
-    // }
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // 生产环境移除console
+        drop_debugger: true // 移除debugger
+      }
+    }
     // rollupOptions: {
     //   external: ['vue', 'vue-router', 'echarts'], // 添加这一行来排除这些库
     //   output: {

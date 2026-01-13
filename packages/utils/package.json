@@ -1,8 +1,6 @@
 {
   "name": "@minilo/utils",
   "version": "0.0.9",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc --noCheck"
@@ -14,17 +12,17 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "require": "./dist/index.js"
     },
     "./request": {
       "types": "./dist/request/index.d.ts",
       "import": "./dist/request/index.js",
-      "default": "./dist/request/index.js"
+      "require": "./dist/request/index.js"
     },
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",
       "import": "./dist/hooks/index.js",
-      "default": "./dist/hooks/index.js"
+      "require": "./dist/hooks/index.js"
     }
   },
   "author": "",
