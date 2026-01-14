@@ -62,6 +62,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "catalog:",
     "@iconify/vue": "catalog:",
+    "@minilo/minitor": "workspace:*",
     "@vueuse/core": "13.9.0",
     "element-plus": "catalog:",
     "vue": "catalog:",

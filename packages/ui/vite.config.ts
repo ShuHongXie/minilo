@@ -39,6 +39,7 @@ export default defineConfig({
     }
   },
   resolve: {
+    conditions: ['development'],
     alias: {
       '#': resolve(__dirname, 'src'),
       minilo: resolve(__dirname, 'src/components')
