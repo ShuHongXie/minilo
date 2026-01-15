@@ -37,6 +37,7 @@ export const monitorJavaScriptErrors = (
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent
     }
+    console.log('javascript error', errorInfo)
 
     // 上报错误数据
     sendErrorData(errorInfo, reportUrl)
@@ -62,6 +63,7 @@ export const monitorJavaScriptErrors = (
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent
     }
+    console.log('unhandledrejection', errorInfo)
 
     // 上报错误数据
     sendErrorData(errorInfo, reportUrl)

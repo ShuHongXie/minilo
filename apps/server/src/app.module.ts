@@ -16,6 +16,7 @@ import { LogModule } from './modules/log/log.module'
 import { OperationLogInterceptor } from '@interceptor/log.interceptor'
 import { UploadModule } from './modules/upload/upload.module'
 import { MockModule } from './modules/mock/mock.module'
+import { MinitorModule } from './modules/minitor/minitor.module'
 @Module({
   imports: [
     // 加载环境变量配置
@@ -58,7 +59,8 @@ import { MockModule } from './modules/mock/mock.module'
     RoleModule,
     LogModule,
     UploadModule,
-    MockModule
+    MockModule,
+    MinitorModule
   ],
   controllers: [AppController],
   providers: [

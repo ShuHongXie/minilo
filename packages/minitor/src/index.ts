@@ -67,6 +67,17 @@ export const VueErrorMonitorPlugin = {
         },
         options.reportUrl
       )
+      console.log('vue内部错误', {
+        message: formatErrorMessage(err),
+        stack: e && e.stack ? e.stack : null,
+        projectName: options.projectName,
+        environment: options.environment,
+        errorType: 'Vue Error',
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        info
+      })
+
       if (typeof original === 'function') {
         try {
           ;(original as any)(err, instance, info)

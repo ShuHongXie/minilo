@@ -41,6 +41,8 @@
     "redis": "catalog:",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "source-map": "^0.7.6",
+    "stacktracey": "^2.1.8",
     "svg-captcha": "catalog:",
     "typeorm": "catalog:",
     "typeorm-naming-strategies": "catalog:",

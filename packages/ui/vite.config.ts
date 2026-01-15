@@ -6,7 +6,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
 
-const outDir = 'minilo'
+const outDir = 'dist'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -16,7 +16,8 @@ export default defineConfig({
     //css代码分割
     cssCodeSplit: true,
     //压缩
-    minify: false
+    minify: false,
+    sourcemap: 'hidden'
   },
   css: {
     // 确保所有 CSS 都被正确处理
@@ -39,11 +40,14 @@ export default defineConfig({
     }
   },
   resolve: {
-    conditions: ['development'],
+    conditions: ['development', 'browser', 'import', 'module', 'default'],
     alias: {
       '#': resolve(__dirname, 'src'),
       minilo: resolve(__dirname, 'src/components')
     }
+  },
+  optimizeDeps: {
+    exclude: ['@minilo/minitor']
   },
   plugins: [
     vue(),
@@ -52,14 +56,14 @@ export default defineConfig({
     }),
     Components({
       resolvers: [ElementPlusResolver()]
-    }),
-    dts({
-      tsconfigPath: './tsconfig.prod.json',
-      outDir: 'build/es'
-    }),
-    dts({
-      tsconfigPath: './tsconfig.prod.json',
-      outDir: 'build/lib'
     })
+    // dts({
+    //   tsconfigPath: './tsconfig.prod.json',
+    //   outDir: 'build/es'
+    // }),
+    // dts({
+    //   tsconfigPath: './tsconfig.prod.json',
+    //   outDir: 'build/lib'
+    // })
   ]
 })

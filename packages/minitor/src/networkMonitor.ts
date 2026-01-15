@@ -31,6 +31,8 @@ export const monitorNetworkErrors = (
         timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent
       }
+      console.log('network error', errorInfo)
+
       sendErrorData(errorInfo, reportUrl)
     })
     // 调用原生的 open 方法，保证正常请求流程
@@ -59,6 +61,7 @@ export const monitorNetworkErrors = (
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent
         }
+        console.log('fetch error', errorInfo)
         sendErrorData(errorInfo, reportUrl)
       }
       return response

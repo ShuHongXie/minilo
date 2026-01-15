@@ -31,6 +31,7 @@ export const monitorResourceErrors = (
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent
         }
+        console.log('静态资源错误', errorInfo)
         sendErrorData(errorInfo, reportUrl)
       }
     },
