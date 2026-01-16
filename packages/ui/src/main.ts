@@ -6,6 +6,11 @@ import * as echarts from 'echarts' // 引入echarts
 import VueCropper from 'vue-cropper'
 import 'vue-cropper/dist/index.css'
 import { VueErrorMonitorPlugin } from '@minilo/minitor'
+import { PrismEditor } from 'vue-prism-editor'
+import 'vue-prism-editor/dist/prismeditor.min.css'
+import 'prismjs/components/prism-clike'
+import 'prismjs/components/prism-javascript'
+import 'prismjs/themes/prism.css'
 
 const app = createApp(App)
 app.use(ElementPlus)
@@ -16,5 +21,6 @@ app.use(VueErrorMonitorPlugin, {
   projectName: 'Test-Playground',
   environment: 'dev'
 })
+app.component('PrismEditor', PrismEditor)
 
 app.mount('#app')

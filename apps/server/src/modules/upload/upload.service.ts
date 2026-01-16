@@ -1,3 +1,4 @@
+import { ApiErrorCode } from '@enums/responseCode.enum'
 import { Injectable } from '@nestjs/common'
 import { ResultData } from '@utils/ResultData'
 
@@ -15,6 +16,37 @@ export class UploadService {
       url: imageUrl,
       fileName: file?.originalname || 'test.jpg',
       fileSize: file?.size || 0
+    })
+  }
+
+  upload(file: Express.Multer.File) {
+    if (!file) {
+      return ResultData.fail('请上传文件')
+    }
+
+    const fs = require('fs')
+    const path = require('path')
+
+    const uploadDir = path.join(__dirname, '../../../public/uploads')
+
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true })
+    }
+
+    const timestamp = Date.now()
+    const randomStr = Math.random().toString(36).substring(2, 10)
+    const ext = path.extname(file.originalname)
+    const fileName = `${timestamp}_${randomStr}${ext}`
+    const filePath = path.join(uploadDir, fileName)
+
+    fs.writeFileSync(filePath, file.buffer)
+
+    const fileUrl = `/static/uploads/${fileName}`
+
+    return ResultData.success('上传成功', {
+      url: fileUrl,
+      fileName: file.originalname,
+      fileSize: file.size
     })
   }
 }

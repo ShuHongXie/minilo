@@ -1,5 +1,6 @@
 **/components.d.ts
 **/auto-imports.d.ts
+**/*.map
 
 # Dependencies
 node_modules/

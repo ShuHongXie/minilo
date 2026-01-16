@@ -14,7 +14,8 @@ export class ResultData<T = any> {
     return new ResultData(ApiErrorCode.SUCCESS, msg, data)
   }
 
-  static fail(code, msg?: string, data: any = ''): ResultData {
+  static fail(msg?: string, code = ApiErrorCode.FAIL, data?: any): ResultData {
+    console.log(code, msg, data)
     return new ResultData(code, msg || 'fail', data)
   }
 }

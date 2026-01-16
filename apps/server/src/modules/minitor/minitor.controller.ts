@@ -1,34 +1,22 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
 import { MinitorService } from './minitor.service'
-import { CreateMinitorDto } from './dto/create-minitor.dto'
-import { UpdateMinitorDto } from './dto/update-minitor.dto'
+import { ApiOperation } from '@nestjs/swagger'
+import { Public } from '@decorator/public.decorator'
+
+interface ErrorStack {
+  error: string
+}
 
 @Controller('minitor')
 export class MinitorController {
   constructor(private readonly minitorService: MinitorService) {}
 
-  @Post()
-  create(@Body() createMinitorDto: CreateMinitorDto) {
-    return this.minitorService.create(createMinitorDto)
-  }
+  @Post('/analyze')
+  @ApiOperation({ summary: '根据报错信息获取分析结果' })
+  @Public()
+  analyze(@Body() errorStack: ErrorStack) {
+    console.log(errorStack)
 
-  @Get()
-  findAll() {
-    return this.minitorService.findAll()
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.minitorService.findOne(+id)
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMinitorDto: UpdateMinitorDto) {
-    return this.minitorService.update(+id, updateMinitorDto)
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.minitorService.remove(+id)
+    return this.minitorService.analyze(errorStack.error)
   }
 }

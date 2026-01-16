@@ -28,4 +28,24 @@ export class UploadController {
   uploadImage(@UploadedFile() file: Express.Multer.File) {
     return this.uploadService.uploadImage(file)
   }
+
+  @Post('upload')
+  @Public()
+  @ApiOperation({ summary: '上传图片' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary'
+        }
+      }
+    }
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  upload(@UploadedFile() file: Express.Multer.File) {
+    return this.uploadService.upload(file)
+  }
 }

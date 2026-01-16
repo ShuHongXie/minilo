@@ -29,6 +29,7 @@
     "@nestjs/jwt": "catalog:",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/serve-static": "^5.0.4",
     "@nestjs/swagger": "catalog:",
     "@nestjs/typeorm": "catalog:",
     "class-transformer": "catalog:",

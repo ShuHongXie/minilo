@@ -27,11 +27,6 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/egc-': {
-        target: 'https://uat2-smart.hengdayun.com/',
-        secure: false,
-        changeOrigin: true
-      },
       '/api': {
         target: 'http://localhost:4000', // 后端接口地址
         changeOrigin: true, // 允许跨域

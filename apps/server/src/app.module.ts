@@ -17,8 +17,21 @@ import { OperationLogInterceptor } from '@interceptor/log.interceptor'
 import { UploadModule } from './modules/upload/upload.module'
 import { MockModule } from './modules/mock/mock.module'
 import { MinitorModule } from './modules/minitor/minitor.module'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { join } from 'path'
 @Module({
   imports: [
+    // 注册静态文件目录
+    ServeStaticModule.forRoot({
+      // 静态文件存放路径（比如项目根目录下的 public 文件夹）
+      rootPath: join(__dirname, '..', 'public'),
+      // 访问前缀（可选，比如通过 /static/xxx 访问）
+      serveRoot: '/static',
+      // 可选：开启缓存（生产环境建议开启）
+      serveStaticOptions: {
+        maxAge: 31536000000 // 1年缓存
+      }
+    }),
     // 加载环境变量配置
     ConfigModule.forRoot({
       isGlobal: true, // 使配置模块全局可用
