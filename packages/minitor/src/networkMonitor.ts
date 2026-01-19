@@ -48,9 +48,7 @@ export const monitorNetworkErrors = (
       return originalFetch(input, init)
     }
     try {
-      // 执行原生的 fetch 请求
       const response = await originalFetch(input, init)
-      // 检查响应状态，如果不是 2xx 则视为错误
       if (!response.ok) {
         const errorInfo = {
           message: `Network Error: ${response.status} ${response.statusText}`,
