@@ -1,4 +1,5 @@
 import { sendErrorData } from './sender'
+import { ErrorType } from './type'
 
 /**
  * 开启 JavaScript 错误监控
@@ -33,7 +34,7 @@ export const monitorJavaScriptErrors = (
       stack: error ? error.stack : null,
       projectName,
       environment,
-      errorType: 'JavaScript Error',
+      errorType: ErrorType.JAVASCRIPT_ERROR,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent
     }
@@ -59,7 +60,7 @@ export const monitorJavaScriptErrors = (
       stack: reason && reason.stack ? reason.stack : null,
       projectName,
       environment,
-      errorType: 'Unhandled Promise Rejection',
+      errorType: ErrorType.UNHANDLED_PROMISE_REJECTION,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent
     }

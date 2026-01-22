@@ -1,4 +1,5 @@
 import { sendErrorData } from './sender'
+import { ErrorType } from './type'
 
 /**
  * 开启网络错误监控
@@ -27,7 +28,7 @@ export const monitorNetworkErrors = (
         message: `Network Error: ${method} ${url}`,
         projectName,
         environment,
-        errorType: 'Network Error',
+        errorType: ErrorType.NETWORK_ERROR,
         timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent
       }
@@ -55,7 +56,7 @@ export const monitorNetworkErrors = (
           url: input instanceof Request ? input.url : input,
           projectName,
           environment,
-          errorType: 'Fetch Error',
+          errorType: ErrorType.FETCH_ERROR,
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent
         }
@@ -69,7 +70,7 @@ export const monitorNetworkErrors = (
         message: `Fetch failed: ${input instanceof Request ? input.url : input}`,
         projectName,
         environment,
-        errorType: 'Fetch Error',
+        errorType: ErrorType.FETCH_ERROR,
         timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent
       }

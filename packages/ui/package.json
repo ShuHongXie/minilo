@@ -13,7 +13,7 @@
     "build": "gulp --require ./node_modules/tsx/dist/loader.cjs -f ./build-script/gulpfile.ts",
     "gulp": "npx ts-node --require ts-node/register node_modules/gulp/bin/gulp.js -f build-script/gulpfile.ts",
     "build:page": "vite build",
-    "build:old": "vue-tsc -b && vite build",
+    "build:old": "vite build",
     "preview": "vite preview",
     "clean": "rimraf minilo",
     "docs:dev": "vitepress dev docs",
@@ -66,6 +66,8 @@
     "@minilo/minitor": "workspace:*",
     "@vueuse/core": "13.9.0",
     "element-plus": "catalog:",
+    "highlight.js": "^11.11.1",
+    "marked": "^17.0.1",
     "vue": "catalog:",
     "vue-cropper": "^1.1.4"
   },
@@ -115,7 +117,6 @@
     "vite-plugin-dts": "^4.5.4",
     "vitepress": "2.0.0-alpha.12",
     "vitest": "^4.0.16",
-    "vue-prism-editor": "2.0.0-alpha.2",
     "vue-tsc": "^3.1.0"
   },
   "peerDependencies": {

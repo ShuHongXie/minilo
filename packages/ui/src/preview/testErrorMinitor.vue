@@ -15,6 +15,9 @@ const btnJsClick = () => {
 }
 
 const btnPromiseClick = () => {
+  Promise.resolve.then((res) => {
+    console.log(obj.notExist.func())
+  })
   Promise.reject(new Error('这是一个未捕获的 Promise 错误！'))
 }
 

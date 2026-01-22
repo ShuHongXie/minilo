@@ -1,4 +1,5 @@
 import { sendErrorData } from './sender'
+import { ErrorType } from './type'
 
 /**
  * 开启资源加载错误监控
@@ -27,7 +28,7 @@ export const monitorResourceErrors = (
           message: `Resource Load Error: ${target.tagName} ${target.getAttribute('src') || target.getAttribute('href')}`,
           projectName,
           environment,
-          errorType: 'Resource Load Error',
+          errorType: ErrorType.RESOURCE_LOAD_ERROR,
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent
         }

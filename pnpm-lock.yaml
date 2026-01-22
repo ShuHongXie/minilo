@@ -6,147 +6,33 @@ settings:
 
 catalogs:
   default:
-    '@babel/cli':
-      specifier: ^7.28.3
-      version: 7.28.3
-    '@babel/core':
-      specifier: ^7.28.5
-      version: 7.28.5
-    '@babel/preset-env':
-      specifier: ^7.28.5
-      version: 7.28.5
-    '@ctrl/tinycolor':
-      specifier: ^4.1.0
-      version: 4.1.0
     '@element-plus/icons-vue':
       specifier: 2.3.1
       version: 2.3.1
-    '@hey-api/client-axios':
-      specifier: ^0.9.1
-      version: 0.9.1
     '@iconify/vue':
       specifier: 5.0.0
       version: 5.0.0
-    '@nestjs/config':
-      specifier: ^4.0.2
-      version: 4.0.2
-    '@nestjs/jwt':
-      specifier: ^11.0.0
-      version: 11.0.0
-    '@nestjs/swagger':
-      specifier: ^11.2.0
-      version: 11.2.0
-    '@nestjs/typeorm':
-      specifier: ^11.0.0
-      version: 11.0.0
-    '@types/lodash.clonedeep':
-      specifier: ^4.5.9
-      version: 4.5.9
-    '@types/nprogress':
-      specifier: ^0.2.3
-      version: 0.2.3
     '@vitejs/plugin-vue':
       specifier: ^6.0.3
       version: 6.0.3
     '@vitejs/plugin-vue-jsx':
       specifier: 5.1.1
       version: 5.1.1
-    '@vue/tsconfig':
-      specifier: ^0.7.0
-      version: 0.7.0
-    axios:
-      specifier: 1.13.2
-      version: 1.11.0
-    class-transformer:
-      specifier: ^0.5.1
-      version: 0.5.1
-    class-validator:
-      specifier: ^0.14.2
-      version: 0.14.2
-    crypto:
-      specifier: ^1.0.1
-      version: 1.0.1
-    dayjs:
-      specifier: ^1.11.13
-      version: 1.11.13
-    defu:
-      specifier: ^6.1.4
-      version: 6.1.4
     element-plus:
       specifier: ^2.11.7
       version: 2.13.0
-    express:
-      specifier: ^5.1.0
-      version: 5.1.0
-    lodash.clonedeep:
-      specifier: ^4.5.0
-      version: 4.5.0
-    mysql2:
-      specifier: ^3.14.3
-      version: 3.14.3
-    nestjs-typeorm-paginate:
-      specifier: ^4.1.0
-      version: 4.1.0
-    nprogress:
-      specifier: ^0.2.0
-      version: 0.2.0
-    pinia:
-      specifier: 3.0.3
-      version: 3.0.3
-    pinia-plugin-persistedstate:
-      specifier: 4.4.1
-      version: 4.4.1
-    redis:
-      specifier: ^5.8.1
-      version: 5.8.1
     sass:
       specifier: 1.89.2
       version: 1.89.2
-    screenfull:
-      specifier: ^6.0.2
-      version: 6.0.2
-    svg-captcha:
-      specifier: ^1.4.0
-      version: 1.4.0
-    theme-colors:
-      specifier: 0.1.0
-      version: 0.1.0
-    typeorm:
-      specifier: ^0.3.25
-      version: 0.3.25
-    typeorm-naming-strategies:
-      specifier: ^4.1.0
-      version: 4.1.0
-    typescript:
-      specifier: ~5.8.3
-      version: 5.8.3
     unplugin-auto-import:
       specifier: 0.17.8
       version: 0.17.8
     unplugin-vue-components:
       specifier: 0.26.0
       version: 0.26.0
-    vite:
-      specifier: 7.0.5
-      version: 7.0.5
-    vite-plugin-svg-icons:
-      specifier: ^2.0.1
-      version: 2.0.1
     vue:
       specifier: ^3.5.26
       version: 3.5.26
-    vue-i18n:
-      specifier: 11.1.11
-      version: 11.1.11
-    vue-router:
-      specifier: ^4.5.1
-      version: 4.5.1
-    vue-tsc:
-      specifier: 2.2.12
-      version: 2.2.12
-    xlsx:
-      specifier: 0.18.5
-      version: 0.18.5
 
 overrides:
   '@vueuse/core': 13.9.0
@@ -627,6 +513,12 @@ importers:
       element-plus:
         specifier: 'catalog:'
         version: 2.13.0(vue@3.5.26(typescript@5.9.3))
+      highlight.js:
+        specifier: ^11.11.1
+        version: 11.11.1
+      marked:
+        specifier: ^17.0.1
+        version: 17.0.1
       vue:
         specifier: 'catalog:'
         version: 3.5.26(typescript@5.9.3)
@@ -769,9 +661,6 @@ importers:
       vitest:
         specifier: ^4.0.16
         version: 4.0.16(@types/node@24.10.0)(@vitest/ui@4.0.16)(happy-dom@20.0.11)(jiti@2.4.2)(jsdom@27.3.0)(lightningcss@1.30.1)(sass@1.89.2)(terser@5.43.1)(tsx@4.19.3)(yaml@2.8.0)
-      vue-prism-editor:
-        specifier: 2.0.0-alpha.2
-        version: 2.0.0-alpha.2(vue@3.5.26(typescript@5.9.3))
       vue-tsc:
         specifier: ^3.1.0
         version: 3.1.2(typescript@5.9.3)
@@ -5823,6 +5712,10 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
+  highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+    engines: {node: '>=12.0.0'}
+
   homedir-polyfill@1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
     engines: {node: '>=0.10.0'}
@@ -6808,6 +6701,11 @@ packages:
 
   mark.js@8.11.1:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
+
+  marked@17.0.1:
+    resolution: {integrity: sha512-boeBdiS0ghpWcSwoNm/jJBwdpFaMnZWRzjA6SkUMYb40SVaN1x7mmfGKp0jvexGcx+7y2La5zRZsYFZI6Qpypg==}
+    engines: {node: '>= 20'}
+    hasBin: true
 
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
@@ -9180,12 +9078,6 @@ packages:
   vue-i18n@11.1.11:
     resolution: {integrity: sha512-LvyteQoXeQiuILbzqv13LbyBna/TEv2Ha+4ZWK2AwGHUzZ8+IBaZS0TJkCgn5izSPLcgZwXy9yyTrewCb2u/MA==}
     engines: {node: '>= 16'}
-    peerDependencies:
-      vue: ^3.0.0
-
-  vue-prism-editor@2.0.0-alpha.2:
-    resolution: {integrity: sha512-Gu42ba9nosrE+gJpnAEuEkDMqG9zSUysIR8SdXUw8MQKDjBnnNR9lHC18uOr/ICz7yrA/5c7jHJr9lpElODC7w==}
-    engines: {node: '>=10'}
     peerDependencies:
       vue: ^3.0.0
 
@@ -15194,6 +15086,8 @@ snapshots:
 
   he@1.2.0: {}
 
+  highlight.js@11.11.1: {}
+
   homedir-polyfill@1.0.3:
     dependencies:
       parse-passwd: 1.0.0
@@ -16360,6 +16254,8 @@ snapshots:
       object-visit: 1.0.1
 
   mark.js@8.11.1: {}
+
+  marked@17.0.1: {}
 
   math-intrinsics@1.1.0: {}
 
@@ -18971,10 +18867,6 @@ snapshots:
       '@intlify/core-base': 11.1.11
       '@intlify/shared': 11.1.11
       '@vue/devtools-api': 6.6.4
-      vue: 3.5.26(typescript@5.9.3)
-
-  vue-prism-editor@2.0.0-alpha.2(vue@3.5.26(typescript@5.9.3)):
-    dependencies:
       vue: 3.5.26(typescript@5.9.3)
 
   vue-router@4.5.1(vue@3.5.26(typescript@5.8.3)):
