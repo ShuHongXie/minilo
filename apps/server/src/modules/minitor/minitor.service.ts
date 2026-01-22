@@ -7,6 +7,7 @@ import Stacktracey from 'stacktracey'
 import fs from 'fs'
 import path from 'path'
 import { ResultData } from '@utils/ResultData'
+import { CreateMinitorDto } from './dto/create-minitor.dto'
 import { MinitorData, ErrorType } from './entities/minitor.entity'
 
 @Injectable()
@@ -30,11 +31,21 @@ export class MinitorService {
    * @param data 监控数据
    * @returns 保存结果
    */
-  async saveMinitorData(data: Partial<MinitorData>) {
+  async saveMinitorData(data: CreateMinitorDto) {
     try {
+      // 处理 errorType，如果是字符串则尝试转换（对于数值枚举）
+      let errorType: ErrorType | undefined
+      if (typeof data.errorType === 'string') {
+        const num = parseInt(data.errorType, 10)
+        errorType = isNaN(num) ? undefined : (num as ErrorType)
+      } else {
+        errorType = data.errorType
+      }
+
       // 创建监控数据实例
       const minitorData = this.minitorDataRepository.create({
         ...data,
+        errorType,
         // 确保 timestamp 是 Date 类型
         timestamp:
           data.timestamp instanceof Date
@@ -42,7 +53,7 @@ export class MinitorService {
             : data.timestamp
               ? new Date(data.timestamp)
               : new Date()
-      })
+      } as any)
 
       // 保存到数据库
       const savedData = await this.minitorDataRepository.save(minitorData)

@@ -2,7 +2,7 @@ import { monitorJavaScriptErrors } from './errorHandler'
 import { monitorNetworkErrors } from './networkMonitor'
 import { monitorResourceErrors } from './resourceMonitor'
 import { sendErrorData } from './sender'
-import { formatErrorMessage } from './utils'
+import { formatErrorMessage, extractFirstErrorFile } from './utils'
 
 interface ErrorMonitorConfig {
   reportUrl: string // 上报错误的服务端地址
@@ -54,10 +54,12 @@ export const VueErrorMonitorPlugin = {
      */
     cfg.errorHandler = (err: unknown, instance?: unknown, info?: unknown) => {
       const e = err as any
+      const stack = e && e.stack ? e.stack : null
       sendErrorData(
         {
           message: formatErrorMessage(err),
-          stack: e && e.stack ? e.stack : null,
+          stack,
+          errorFilename: extractFirstErrorFile(stack),
           projectName: options.projectName,
           environment: options.environment,
           errorType: 'Vue Error',
@@ -67,9 +69,12 @@ export const VueErrorMonitorPlugin = {
         },
         options.reportUrl
       )
+      console.log('vue内部错误', stack, instance, info)
+
       console.log('vue内部错误', {
         message: formatErrorMessage(err),
-        stack: e && e.stack ? e.stack : null,
+        stack,
+        errorFilename: extractFirstErrorFile(stack),
         projectName: options.projectName,
         environment: options.environment,
         errorType: 'Vue Error',

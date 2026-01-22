@@ -42,3 +42,36 @@ export const formatErrorMessage = (err: any): string => {
     return String(err)
   }
 }
+
+/**
+ * 从错误堆栈中提取第一个错误文件名
+ * 解析堆栈信息,提取第一个有效的文件路径(包含行号和列号)
+ *
+ * @param {string | null | undefined} stack - 错误堆栈字符串
+ * @returns {string | null} 提取出的文件名(如 'index-Cic8HWFC.js:161836:34'),如果无法提取则返回 null
+ *
+ * @example
+ * const stack = `TypeError: Failed to fetch
+ *   at window.fetch (http://172.18.108.26:8080/assets/index-Cic8HWFC.js:161836:34)
+ *   at btnFetchClick (http://172.18.108.26:8080/assets/index-Cic8HWFC.js:77701:11)`
+ * extractFirstErrorFile(stack) // 返回 'index-Cic8HWFC.js:161836:34'
+ */
+export const extractFirstErrorFile = (stack: string | null | undefined): string | null => {
+  console.log('stack', stack)
+
+  if (!stack || typeof stack !== 'string') {
+    return null
+  }
+
+  // 正则匹配: http(s)://域名/路径/文件名:行号:列号
+  // 示例: http://172.18.108.26:8080/assets/index-Cic8HWFC.js:161836:34
+  const regex = /https?:\/\/[^/]+\/(?:.*\/)?(\S+\.js):(\d+):(\d+)/
+  const match = stack.match(regex)
+
+  if (match) {
+    // match[1] 是文件名, match[2] 是行号, match[3] 是列号
+    return `${match[1]}`
+  }
+
+  return null
+}

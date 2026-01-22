@@ -113,6 +113,12 @@ export class MinitorData {
   url: string
 
   /**
+   * 错误文件名（从堆栈中提取的第一个报错文件）
+   */
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  errorFilename: string
+
+  /**
    * 记录创建时间
    */
   @CreateDateColumn()

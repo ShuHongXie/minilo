@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { initRequestInstance } from '@minilo/utils'
 import { ref, reactive, onMounted, defineProps, defineEmits } from 'vue'
 
 /**
@@ -22,9 +23,12 @@ const btnPromiseClick = () => {
 }
 
 const btnXhrClick = () => {
-  const xhr = new XMLHttpRequest()
-  xhr.open('GET', 'http://localhost:9999/not-exist') // 端口不存在导致连接失败
-  xhr.send()
+  const axios = initRequestInstance()
+  axios
+    .post('/minitor/analyze', {
+      error: `Error: 这是 Vue 组件内部触发的错误！\n    at btnVueClick (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:7876:17)\n    at callWithErrorHandling (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:2025:23)\n    at callWithAsyncErrorHandling (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:2032:21)\n    at HTMLButtonElement.invoker (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:7382:9)`
+    })
+    .then((res) => {})
 }
 
 const btnFetchClick = () => {
