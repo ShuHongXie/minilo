@@ -121,9 +121,12 @@ async function findSourcemapFiles(dir: string): Promise<string[]> {
  * 调用后端接口创建 mapping 记录
  * @param mappingData mapping 数据
  * @param apiUrl 后端接口地址
- * @returns 是否成功
+ * @returns 返回结果对象，包含是否成功和是否为新记录
  */
-async function createMappingRecord(mappingData: any, apiUrl: string): Promise<boolean> {
+async function createMappingRecord(
+  mappingData: any,
+  apiUrl: string
+): Promise<{ success: boolean; isNew?: boolean; alreadyExists?: boolean }> {
   try {
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -132,20 +135,22 @@ async function createMappingRecord(mappingData: any, apiUrl: string): Promise<bo
       },
       body: JSON.stringify(mappingData)
     })
-    console.log('response>>>>>>>>>>>>>>', response)
 
     if (!response.ok) {
       const errorText = await response.text()
       console.error(`❌ 调用后端接口创建 mapping 记录失败: ${response.status} ${errorText}`)
-      return false
+      return { success: false }
     }
 
     const result = await response.json()
-    console.log('✅ 成功创建 mapping 记录')
-    return true
+    return {
+      success: true,
+      isNew: result.data?.isNew ?? true,
+      alreadyExists: result.data?.alreadyExists ?? false
+    }
   } catch (error) {
     console.error('❌ 调用后端接口失败:', error)
-    return false
+    return { success: false }
   }
 }
 
@@ -165,6 +170,12 @@ export function vitePluginUploadSourcemap(options: UploadSourcemapOptions): Plug
     mappingApiUrl = '/minitor/mapping',
     cosConfig
   } = options
+
+  console.log(
+    '[vitePluginUploadSourcemap] 插件初始化: projectName=%s, buildVersion=%s',
+    projectName,
+    buildVersion
+  )
 
   // 验证必填配置
   if (!projectName) {
@@ -189,6 +200,26 @@ export function vitePluginUploadSourcemap(options: UploadSourcemapOptions): Plug
         // 2. 逐个上传并可选删除
         for (const filePath of sourcemapFiles) {
           const fileName = path.basename(filePath)
+          const jsFileName = fileName.replace('.map', '')
+          const mappingData = {
+            projectName,
+            buildVersion,
+            jsFilename: jsFileName,
+            mapFilename: fileName,
+            cosUrl: ''
+          }
+          console.log('[映射数据] 准备发送:', JSON.stringify(mappingData, null, 2))
+
+          // 2.1 先检查该映射记录是否已存在
+          const mappingCheckResult = await createMappingRecord(mappingData, mappingApiUrl)
+
+          if (mappingCheckResult.success && mappingCheckResult.alreadyExists) {
+            // 记录已存在，无需上传
+            console.log(`⏭️ SourceMap 映射记录已存在，跳过上传: ${fileName}`)
+            continue
+          }
+
+          // 2.2 记录不存在或首次创建，需要上传 COS
           let uploadResult: { success: boolean; cosUrl?: string }
 
           // 执行上传
@@ -200,23 +231,15 @@ export function vitePluginUploadSourcemap(options: UploadSourcemapOptions): Plug
             // 使用默认上传函数
             uploadResult = await defaultUploadSourcemap(filePath, fileName, cosConfig)
           }
-          console.log('uploadResult》》》》》》》》', uploadResult)
-
           if (uploadResult.success) {
-            // 3. 上传成功后创建 mapping 记录
-            const jsFileName = fileName.replace('.map', '')
-            const mappingData = {
-              projectName,
-              buildVersion,
-              jsFilename: jsFileName,
-              mapFilename: fileName,
+            // 2.3 上传成功后创建/更新 mapping 记录
+            const finalMappingData = {
+              ...mappingData,
               cosUrl: uploadResult.cosUrl || ''
             }
-            console.log('mappingData》》》》》》》》》》', mappingData)
+            await createMappingRecord(finalMappingData, mappingApiUrl)
 
-            await createMappingRecord(mappingData, mappingApiUrl)
-
-            // 4. 可选删除本地文件
+            // 2.4 可选删除本地文件
             if (deleteAfterUpload) {
               await fs.unlink(filePath)
               console.log(`🗑️ 已删除本地sourcemap文件: ${fileName}`)

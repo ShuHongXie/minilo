@@ -102,6 +102,7 @@ export class MinitorService {
   async saveMapping(data: CreateMappingDto) {
     try {
       // 1. 查找或创建构建版本记录
+      // 注意：这里使用 buildVersion 作为构建的子一标识，即使有缓存，不同构建版本也应分别记录
       let build = await this.minitorBuildRepository.findOne({
         where: {
           projectName: data.projectName,
@@ -127,7 +128,11 @@ export class MinitorService {
       })
 
       if (existingMap) {
-        return ResultData.success('SourceMap 记录已存在', existingMap)
+        return ResultData.success('SourceMap 记录已存在，无需重新上传', {
+          ...existingMap,
+          isNew: false,
+          alreadyExists: true
+        })
       }
 
       // 3. 创建 SourceMap 记录
@@ -139,9 +144,13 @@ export class MinitorService {
       })
 
       const savedMap = await this.minitorSourceMapRepository.save(sourceMap)
-      return ResultData.success('保存 Mapping 记录成功', savedMap)
+      return ResultData.success('保存 Mapping 记录成功', {
+        ...savedMap,
+        isNew: true,
+        alreadyExists: false
+      })
     } catch (error) {
-      console.error('保存 Mapping 记录失败:', error)
+      console.error('[saveMapping] 保存失败:', error)
       return ResultData.fail('保存 Mapping 记录失败', ApiErrorCode.COMMON_CODE, {
         error: (error as Error).message
       })

@@ -44,7 +44,6 @@ export class MinitorController {
   @ApiOperation({ summary: '上报 sourcemap 映射关系' })
   @Public()
   saveMapping(@Body() data: CreateMappingDto) {
-    console.log('上报的映射关系:', data)
     return this.minitorService.saveMapping(data)
   }
 }
