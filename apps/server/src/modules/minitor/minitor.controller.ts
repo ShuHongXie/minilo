@@ -4,6 +4,7 @@ import { MinitorService } from './minitor.service'
 import { ApiOperation } from '@nestjs/swagger'
 import { Public } from '@decorator/public.decorator'
 import { CreateMinitorDto } from './dto/create-minitor.dto'
+import { CreateMappingDto } from './dto/create-mapping.dto'
 import { ErrorType } from './entities/minitor.entity'
 
 interface ErrorStack {
@@ -37,5 +38,13 @@ export class MinitorController {
   report(@Body() data: CreateMinitorDto) {
     console.log('上报的监控数据:', data)
     return this.minitorService.saveMinitorData(data)
+  }
+
+  @Post('/mapping')
+  @ApiOperation({ summary: '上报 sourcemap 映射关系' })
+  @Public()
+  saveMapping(@Body() data: CreateMappingDto) {
+    console.log('上报的映射关系:', data)
+    return this.minitorService.saveMapping(data)
   }
 }

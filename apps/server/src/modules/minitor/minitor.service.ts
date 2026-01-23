@@ -6,15 +6,23 @@ import sourceMap from 'source-map'
 import Stacktracey from 'stacktracey'
 import fs from 'fs'
 import path from 'path'
+import crypto from 'crypto'
 import { ResultData } from '@utils/ResultData'
 import { CreateMinitorDto } from './dto/create-minitor.dto'
+import { CreateMappingDto } from './dto/create-mapping.dto'
 import { MinitorData, ErrorType } from './entities/minitor.entity'
+import { MinitorBuild } from './entities/minitor-build.entity'
+import { MinitorSourceMap } from './entities/minitor-sourcemap.entity'
 
 @Injectable()
 export class MinitorService {
   constructor(
     @InjectRepository(MinitorData)
-    private readonly minitorDataRepository: Repository<MinitorData>
+    private readonly minitorDataRepository: Repository<MinitorData>,
+    @InjectRepository(MinitorBuild)
+    private readonly minitorBuildRepository: Repository<MinitorBuild>,
+    @InjectRepository(MinitorSourceMap)
+    private readonly minitorSourceMapRepository: Repository<MinitorSourceMap>
   ) {}
 
   readFile(filePath: string): Promise<string> {
@@ -33,7 +41,25 @@ export class MinitorService {
    */
   async saveMinitorData(data: CreateMinitorDto) {
     try {
-      // 处理 errorType，如果是字符串则尝试转换（对于数值枚举）
+      // 1. 生成堆栈哈希值
+      const stack = data.stack || ''
+      const stackHash = crypto.createHash('md5').update(stack).digest('hex')
+
+      // 2. 检查是否已存在相同的错误记录（同一项目、同一版本、同一消息和堆栈哈希）
+      const existing = await this.minitorDataRepository.findOne({
+        where: {
+          projectName: data.projectName,
+          buildVersion: data.buildVersion,
+          message: data.message,
+          stackHash: stackHash
+        }
+      })
+
+      if (existing) {
+        return ResultData.success('错误记录已存在，跳过插入', existing)
+      }
+
+      // 3. 处理 errorType
       let errorType: ErrorType | undefined
       if (typeof data.errorType === 'string') {
         const num = parseInt(data.errorType, 10)
@@ -42,10 +68,11 @@ export class MinitorService {
         errorType = data.errorType
       }
 
-      // 创建监控数据实例
+      // 4. 创建监控数据实例
       const minitorData = this.minitorDataRepository.create({
         ...data,
         errorType,
+        stackHash,
         // 确保 timestamp 是 Date 类型
         timestamp:
           data.timestamp instanceof Date
@@ -55,13 +82,67 @@ export class MinitorService {
               : new Date()
       } as any)
 
-      // 保存到数据库
+      // 5. 保存到数据库
       const savedData = await this.minitorDataRepository.save(minitorData)
 
       return ResultData.success('保存监控数据成功', savedData)
     } catch (error) {
       console.error('保存监控数据失败:', error)
       return ResultData.fail('保存监控数据失败', ApiErrorCode.COMMON_CODE, {
+        error: (error as Error).message
+      })
+    }
+  }
+
+  /**
+   * 保存 Mapping 信息 (构建版本与 SourceMap 关联)
+   * @param data Mapping 数据
+   * @returns 保存结果
+   */
+  async saveMapping(data: CreateMappingDto) {
+    try {
+      // 1. 查找或创建构建版本记录
+      let build = await this.minitorBuildRepository.findOne({
+        where: {
+          projectName: data.project_name,
+          buildVersion: data.build_version
+        }
+      })
+
+      if (!build) {
+        build = this.minitorBuildRepository.create({
+          projectName: data.project_name,
+          buildVersion: data.build_version
+        })
+        build = await this.minitorBuildRepository.save(build)
+      }
+
+      // 2. 检查该 SourceMap 是否已存在
+      const existingMap = await this.minitorSourceMapRepository.findOne({
+        where: {
+          jsFilename: data.js_filename,
+          mapFilename: data.map_filename,
+          build: { id: build.id }
+        }
+      })
+
+      if (existingMap) {
+        return ResultData.success('SourceMap 记录已存在', existingMap)
+      }
+
+      // 3. 创建 SourceMap 记录
+      const sourceMap = this.minitorSourceMapRepository.create({
+        jsFilename: data.js_filename,
+        mapFilename: data.map_filename,
+        cosUrl: data.cos_url,
+        build: build
+      })
+
+      const savedMap = await this.minitorSourceMapRepository.save(sourceMap)
+      return ResultData.success('保存 Mapping 记录成功', savedMap)
+    } catch (error) {
+      console.error('保存 Mapping 记录失败:', error)
+      return ResultData.fail('保存 Mapping 记录失败', ApiErrorCode.COMMON_CODE, {
         error: (error as Error).message
       })
     }

@@ -19,6 +19,9 @@ import { MockModule } from './modules/mock/mock.module'
 import { MinitorModule } from './modules/minitor/minitor.module'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path'
+import { AuthModule } from './mapping/auth/auth.module'
+import { MappingModule } from './modules/mapping/mapping.module'
+import { MappingModule } from './modules/mapping/mapping.module'
 @Module({
   imports: [
     // 注册静态文件目录
@@ -73,7 +76,9 @@ import { join } from 'path'
     LogModule,
     UploadModule,
     MockModule,
-    MinitorModule
+    MinitorModule,
+    AuthModule,
+    MappingModule
   ],
   controllers: [AppController],
   providers: [

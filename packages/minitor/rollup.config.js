@@ -2,7 +2,7 @@ import typescript from '@rollup/plugin-typescript'
 import terser from '@rollup/plugin-terser'
 
 export default {
-  input: 'src/index.ts', // 入口文件
+  input: 'core/index.ts', // 入口文件
   output: [
     // 1. CJS 格式 (给 Node.js 或旧版构建工具用)
     {

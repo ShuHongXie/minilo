@@ -13,4 +13,5 @@ export class CreateMinitorDto {
   userAgent?: string
   url?: string
   errorFilename?: string
+  buildVersion?: string
 }
