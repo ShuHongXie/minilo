@@ -104,15 +104,15 @@ export class MinitorService {
       // 1. 查找或创建构建版本记录
       let build = await this.minitorBuildRepository.findOne({
         where: {
-          projectName: data.project_name,
-          buildVersion: data.build_version
+          projectName: data.projectName,
+          buildVersion: data.buildVersion
         }
       })
 
       if (!build) {
         build = this.minitorBuildRepository.create({
-          projectName: data.project_name,
-          buildVersion: data.build_version
+          projectName: data.projectName,
+          buildVersion: data.buildVersion
         })
         build = await this.minitorBuildRepository.save(build)
       }
@@ -120,8 +120,8 @@ export class MinitorService {
       // 2. 检查该 SourceMap 是否已存在
       const existingMap = await this.minitorSourceMapRepository.findOne({
         where: {
-          jsFilename: data.js_filename,
-          mapFilename: data.map_filename,
+          jsFilename: data.jsFilename,
+          mapFilename: data.mapFilename,
           build: { id: build.id }
         }
       })
@@ -132,9 +132,9 @@ export class MinitorService {
 
       // 3. 创建 SourceMap 记录
       const sourceMap = this.minitorSourceMapRepository.create({
-        jsFilename: data.js_filename,
-        mapFilename: data.map_filename,
-        cosUrl: data.cos_url,
+        jsFilename: data.jsFilename,
+        mapFilename: data.mapFilename,
+        cosUrl: data.cosUrl,
         build: build
       })
 

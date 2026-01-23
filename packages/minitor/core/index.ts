@@ -3,9 +3,6 @@ import { monitorNetworkErrors } from './networkMonitor'
 import { monitorResourceErrors } from './resourceMonitor'
 import { sendErrorData } from './sender'
 import { formatErrorMessage, extractFirstErrorFile } from './utils'
-import vitePluginUploadSourcemap from '../plugin/vite-plugin-upload-sourcemap'
-import type { UploadSourcemapOptions } from '../plugin/vite-plugin-upload-sourcemap'
-import { replaceVersionPlugin } from '../plugin/replace-version'
 
 interface ErrorMonitorConfig {
   reportUrl: string // 上报错误的服务端地址
@@ -96,5 +93,3 @@ export const VueErrorMonitorPlugin = {
     }
   }
 }
-
-export { vitePluginUploadSourcemap, type UploadSourcemapOptions, replaceVersionPlugin }

@@ -3,6 +3,7 @@ import fs from 'fs/promises'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import type { Plugin } from 'vite'
+import { buildVersion as defaultBuildVersion } from './utils'
 
 /**
  * 插件配置选项类型定义
@@ -16,8 +17,8 @@ export interface UploadSourcemapOptions {
   customUpload?: (filePath: string, fileName: string) => Promise<boolean>
   /** 项目名称（如my-vue-project），必填 */
   projectName: string
-  /** 构建版本/标识（如v1.0.2_20260122），必填 */
-  buildVersion: string
+  /** 构建版本/标识（如v1.0.2_20260122），可选，默认使用 utils.ts 中的 buildVersion */
+  buildVersion?: string
   /** 后端mapping接口地址，默认 '/api/mapping' */
   mappingApiUrl?: string
   /** 腾讯云COS配置 */
@@ -62,7 +63,7 @@ async function defaultUploadSourcemap(
       SecretKey: cosConfig.secretKey
     })
 
-    const cosPathPrefix = cosConfig.cosPathPrefix || 'sourcemaps/'
+    const cosPathPrefix = `${defaultBuildVersion}/${cosConfig.cosPathPrefix}`
     const cosKey = `${cosPathPrefix}${fileName}`
 
     // 读取文件内容
@@ -131,6 +132,7 @@ async function createMappingRecord(mappingData: any, apiUrl: string): Promise<bo
       },
       body: JSON.stringify(mappingData)
     })
+    console.log('response>>>>>>>>>>>>>>', response)
 
     if (!response.ok) {
       const errorText = await response.text()
@@ -159,8 +161,8 @@ export function vitePluginUploadSourcemap(options: UploadSourcemapOptions): Plug
     deleteAfterUpload = true,
     customUpload,
     projectName,
-    buildVersion,
-    mappingApiUrl = '/api/mapping',
+    buildVersion = defaultBuildVersion,
+    mappingApiUrl = '/minitor/mapping',
     cosConfig
   } = options
 
@@ -168,25 +170,21 @@ export function vitePluginUploadSourcemap(options: UploadSourcemapOptions): Plug
   if (!projectName) {
     throw new Error('❌ 缺少必填配置：projectName')
   }
-  if (!buildVersion) {
-    throw new Error('❌ 缺少必填配置：buildVersion')
-  }
 
   return {
     name: 'vite-plugin-upload-sourcemap', // 插件名称（必填）
     // 构建完成后触发的钩子（Vite官方生命周期）
     async closeBundle() {
-      // 处理ES模块下的__dirname（TS兼容写法）
-      const __dirname = path.dirname(fileURLToPath(import.meta.url))
-      const distAbsolutePath = path.resolve(__dirname, outputDir)
-
       try {
+        // 使用项目根目录解析输出目录
+        const distAbsolutePath = path.resolve(process.cwd(), outputDir)
         // 1. 查找所有sourcemap文件
         const sourcemapFiles = await findSourcemapFiles(distAbsolutePath)
         if (sourcemapFiles.length === 0) {
           console.log('⚠️ 未找到任何sourcemap文件，请检查vite.config.ts中build.sourcemap配置')
           return
         }
+        console.log('sourcemapFiles:', sourcemapFiles)
 
         // 2. 逐个上传并可选删除
         for (const filePath of sourcemapFiles) {
@@ -202,17 +200,19 @@ export function vitePluginUploadSourcemap(options: UploadSourcemapOptions): Plug
             // 使用默认上传函数
             uploadResult = await defaultUploadSourcemap(filePath, fileName, cosConfig)
           }
+          console.log('uploadResult》》》》》》》》', uploadResult)
 
           if (uploadResult.success) {
             // 3. 上传成功后创建 mapping 记录
             const jsFileName = fileName.replace('.map', '')
             const mappingData = {
-              project_name: projectName,
-              build_version: buildVersion,
-              js_filename: jsFileName,
-              map_filename: fileName,
-              cos_url: uploadResult.cosUrl || ''
+              projectName,
+              buildVersion,
+              jsFilename: jsFileName,
+              mapFilename: fileName,
+              cosUrl: uploadResult.cosUrl || ''
             }
+            console.log('mappingData》》》》》》》》》》', mappingData)
 
             await createMappingRecord(mappingData, mappingApiUrl)
 

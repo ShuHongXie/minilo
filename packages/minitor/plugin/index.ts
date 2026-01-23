@@ -1,2 +1,2 @@
 export * from './vite-plugin-upload-sourcemap'
-export * from './replace-version'
+export * from './vite-plugin-replace-version'

@@ -1,4 +1,3 @@
-import { defineConfig, Plugin } from 'vite'
 import { execSync } from 'child_process'
 
 const getGitBranch = () => {
@@ -31,14 +30,4 @@ const getTime = () => {
   return String(date.getHours()).padStart(2, '0') + String(date.getMinutes()).padStart(2, '0')
 }
 
-const buildVersion = `${getGitBranch()}_${getGitCommitHash()}_${getDate()}_${getTime()}`
-
-// 5. 替换HTML占位符插件
-export const vitePluginReplaceVersionPlugin = (): Plugin => {
-  return {
-    name: 'vite-plugin-replace-version',
-    transformIndexHtml(html) {
-      return html.replace('__BUILD_VERSION__', buildVersion)
-    }
-  }
-}
+export const buildVersion = `${getGitBranch()}_${getGitCommitHash()}_${getDate()}_${getTime()}`

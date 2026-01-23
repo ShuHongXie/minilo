@@ -13,6 +13,8 @@ build/
 app/web/src/apis/
 packages/ui/minilo/
 packages/ui/html/
+packages/**/.env
+apps/**/.env
 
 # Logs
 *.log

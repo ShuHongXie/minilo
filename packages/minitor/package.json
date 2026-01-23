@@ -15,16 +15,16 @@
   ],
   "exports": {
     ".": {
-      "development": "./index.ts",
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.esm.js",
+      "require": "./dist/core/index.cjs.js",
+      "default": "./dist/core/index.esm.js"
     },
     "./plugin": {
-      "development": "./plugin/index.ts",
       "types": "./dist/plugin/index.d.ts",
-      "import": "./dist/plugin/index.js",
-      "default": "./dist/plugin/index.js"
+      "import": "./dist/plugin/index.esm.js",
+      "require": "./dist/plugin/index.cjs.js",
+      "default": "./dist/plugin/index.esm.js"
     }
   },
   "license": "MIT",

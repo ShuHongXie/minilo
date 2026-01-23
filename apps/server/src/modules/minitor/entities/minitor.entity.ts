@@ -9,8 +9,9 @@ export enum ErrorType {
 }
 
 @Entity('minitor_data')
-// 增加唯一约束：同一版本下，相同的错误消息和堆栈视为重复，不重复记录
-@Unique('idx_unique_error', ['projectName', 'buildVersion', 'message', 'stackHash'])
+// 增加唯一约束：同一版本下，相同的堆栈哈希视为重复，不重复记录
+// 注：message 是 TEXT 类型无法用于索引，改用 stackHash 作为去重标识
+@Unique('idx_unique_error', ['projectName', 'buildVersion', 'stackHash'])
 export class MinitorData {
   @PrimaryGeneratedColumn()
   id: number
