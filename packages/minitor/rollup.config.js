@@ -3,7 +3,7 @@ import terser from '@rollup/plugin-terser'
 
 const createConfig = (input, outputDir, isPlugin = false) => ({
   input,
-  external: isPlugin ? ['child_process', 'fs', 'path', 'url'] : [],
+  external: isPlugin ? ['child_process', 'fs', 'path', 'url'] : ['vue', 'vue-router'],
   output: [
     {
       file: `dist/${outputDir}/index.cjs.js`,
@@ -36,5 +36,7 @@ const createConfig = (input, outputDir, isPlugin = false) => ({
 
 export default [
   createConfig('./core/index.ts', 'core', false),
-  createConfig('./plugin/index.ts', 'plugin', true)
+  createConfig('./plugin/index.ts', 'plugin', true),
+  createConfig('./screen/index.ts', 'screen', false),
+  createConfig('./vital/index.ts', 'vital', false)
 ]

@@ -5,6 +5,9 @@ import { ApiOperation } from '@nestjs/swagger'
 import { Public } from '@decorator/public.decorator'
 import { CreateMinitorDto } from './dto/create-minitor.dto'
 import { CreateMappingDto } from './dto/create-mapping.dto'
+import { GetMinitorListDto } from './dto/get-minitor-list.dto'
+import { GetProjectListDto } from './dto/get-project-list.dto'
+import { CreateBlankDto } from './dto/create-blank.dto'
 import { ErrorType } from './entities/minitor.entity'
 
 interface ErrorStack {
@@ -45,5 +48,26 @@ export class MinitorController {
   @Public()
   saveMapping(@Body() data: CreateMappingDto) {
     return this.minitorService.saveMapping(data)
+  }
+
+  @Post('/list')
+  @ApiOperation({ summary: '获取项目报错列表' })
+  @Public()
+  getMinitorList(@Body() queryDto: GetMinitorListDto) {
+    return this.minitorService.getMinitorList(queryDto)
+  }
+
+  @Post('/projects')
+  @ApiOperation({ summary: '获取项目列表（去重保留最新）' })
+  @Public()
+  getProjectList(@Body() queryDto: GetProjectListDto) {
+    return this.minitorService.getProjectList(queryDto)
+  }
+
+  @Post('/blank')
+  @ApiOperation({ summary: '上报白屏检测数据' })
+  @Public()
+  reportBlank(@Body() data: CreateBlankDto) {
+    return this.minitorService.saveBlankData(data)
   }
 }

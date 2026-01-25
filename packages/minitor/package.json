@@ -25,6 +25,18 @@
       "import": "./dist/plugin/index.esm.js",
       "require": "./dist/plugin/index.cjs.js",
       "default": "./dist/plugin/index.esm.js"
+    },
+    "./screen": {
+      "types": "./dist/screen/index.d.ts",
+      "import": "./dist/screen/index.esm.js",
+      "require": "./dist/screen/index.cjs.js",
+      "default": "./dist/screen/index.esm.js"
+    },
+    "./vital": {
+      "types": "./dist/vital/index.d.ts",
+      "import": "./dist/vital/index.esm.js",
+      "require": "./dist/vital/index.cjs.js",
+      "default": "./dist/vital/index.esm.js"
     }
   },
   "license": "MIT",
@@ -41,6 +53,7 @@
     "typescript": "^5.3.0"
   },
   "dependencies": {
-    "cos-nodejs-sdk-v5": "^2.15.4"
+    "cos-nodejs-sdk-v5": "^2.15.4",
+    "web-vitals": "^5.1.0"
   }
 }

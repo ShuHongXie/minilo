@@ -8,11 +8,17 @@ import fs from 'fs'
 import path from 'path'
 import crypto from 'crypto'
 import { ResultData } from '@utils/ResultData'
+import { IPaginationOptions } from 'nestjs-typeorm-paginate'
+import { paginateTransform } from '@utils/paginate'
 import { CreateMinitorDto } from './dto/create-minitor.dto'
 import { CreateMappingDto } from './dto/create-mapping.dto'
+import { GetMinitorListDto } from './dto/get-minitor-list.dto'
+import { GetProjectListDto } from './dto/get-project-list.dto'
+import { CreateBlankDto } from './dto/create-blank.dto'
 import { MinitorData, ErrorType } from './entities/minitor.entity'
 import { MinitorBuild } from './entities/minitor-build.entity'
 import { MinitorSourceMap } from './entities/minitor-sourcemap.entity'
+import { MinitorBlank } from './entities/minitor-blank.entity'
 
 @Injectable()
 export class MinitorService {
@@ -22,7 +28,9 @@ export class MinitorService {
     @InjectRepository(MinitorBuild)
     private readonly minitorBuildRepository: Repository<MinitorBuild>,
     @InjectRepository(MinitorSourceMap)
-    private readonly minitorSourceMapRepository: Repository<MinitorSourceMap>
+    private readonly minitorSourceMapRepository: Repository<MinitorSourceMap>,
+    @InjectRepository(MinitorBlank)
+    private readonly minitorBlankRepository: Repository<MinitorBlank>
   ) {}
 
   readFile(filePath: string): Promise<string> {
@@ -157,6 +165,30 @@ export class MinitorService {
     }
   }
 
+  /**
+   * 保存白屏检测数据
+   * @param data 白屏数据
+   * @returns 保存结果
+   */
+  async saveBlankData(data: CreateBlankDto) {
+    try {
+      const blankData = this.minitorBlankRepository.create({
+        ...data,
+        routeQuery: data.routeQuery ? JSON.stringify(data.routeQuery) : null,
+        routeParams: data.routeParams ? JSON.stringify(data.routeParams) : null,
+        timestamp: data.timestamp ? new Date(data.timestamp) : new Date()
+      } as any)
+
+      const savedData = await this.minitorBlankRepository.save(blankData)
+      return ResultData.success('保存白屏数据成功', savedData)
+    } catch (error) {
+      console.error('保存白屏数据失败:', error)
+      return ResultData.fail('保存白屏数据失败', ApiErrorCode.COMMON_CODE, {
+        error: (error as Error).message
+      })
+    }
+  }
+
   async analyze(error: string) {
     if (!error) {
       return ResultData.fail('错误栈信息不能为空', ApiErrorCode.COMMON_CODE)
@@ -220,6 +252,83 @@ export class MinitorService {
       return ResultData.fail('Sourcemap 文件上传失败', ApiErrorCode.COMMON_CODE, {
         error: (error as Error).message
       })
+    }
+  }
+
+  /**
+   * 获取项目列表（去重保留同名项目中最新的构建）
+   * @param queryDto 查询参数
+   * @returns 项目列表
+   */
+  async getProjectList(queryDto: GetProjectListDto) {
+    try {
+      const { currentPage, pageSize } = queryDto
+
+      // 子查询：获取每个项目名称对应的最大 ID（即最新的构建）
+      const subQuery = this.minitorBuildRepository
+        .createQueryBuilder('sub')
+        .select('MAX(sub.id)')
+        .groupBy('sub.projectName')
+
+      const queryBuilder = this.minitorBuildRepository
+        .createQueryBuilder('mb')
+        .where(`mb.id IN (${subQuery.getQuery()})`)
+        .orderBy('mb.createTime', 'DESC')
+
+      const paginationOptions: IPaginationOptions = {
+        page: currentPage,
+        limit: pageSize
+      }
+
+      const result = await paginateTransform<MinitorBuild>(queryBuilder, paginationOptions)
+
+      return ResultData.success('获取项目列表成功', result)
+    } catch (error) {
+      console.error('获取项目列表失败:', error)
+      return ResultData.fail('获取项目列表失败', ApiErrorCode.COMMON_CODE)
+    }
+  }
+
+  /**
+   * 获取项目报错列表（带分页）
+   * @param queryDto 查询参数
+   * @returns 报错列表
+   */
+  async getMinitorList(queryDto: GetMinitorListDto) {
+    try {
+      const { projectName, buildId, currentPage, pageSize } = queryDto
+
+      const queryBuilder = this.minitorDataRepository.createQueryBuilder('minitor')
+
+      // 如果提供了 buildId，则需要先找到对应的项目和版本
+      if (buildId) {
+        const build = await this.minitorBuildRepository.findOneBy({ id: buildId })
+        if (build) {
+          queryBuilder.andWhere('minitor.projectName = :pName', { pName: build.projectName })
+          queryBuilder.andWhere('minitor.buildVersion = :bVer', { bVer: build.buildVersion })
+        } else {
+          return ResultData.fail('未找到指定的构建版本', ApiErrorCode.COMMON_CODE)
+        }
+      } else if (projectName) {
+        // 如果没有提供 buildId 但提供了 projectName，则查询该项目下的所有报错
+        queryBuilder.andWhere('minitor.projectName = :projectName', { projectName })
+      } else {
+        return ResultData.fail('请指定项目或构建 ID', ApiErrorCode.COMMON_CODE)
+      }
+
+      queryBuilder.orderBy('minitor.timestamp', 'DESC') // 按时间倒序
+
+      const paginationOptions: IPaginationOptions = {
+        page: currentPage,
+        limit: pageSize
+      }
+
+      const result = await paginateTransform<MinitorData>(queryBuilder, paginationOptions)
+
+      return ResultData.success('获取报错列表成功', result)
+    } catch (error) {
+      console.error('获取监控数据列表失败:', error)
+      return ResultData.fail('获取监控数据列表失败', ApiErrorCode.COMMON_CODE)
     }
   }
 }

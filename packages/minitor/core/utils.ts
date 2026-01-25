@@ -1,9 +1,9 @@
-export /**
+/**
  * @description 获取浏览器信息,解析 userAgent 获取浏览器名称和版本
  * @author xieshuhong
  * @return {{ name: string, version: string }} 包含浏览器名称和版本的对象
  */
-const getBrowserInfo = () => {
+export const getBrowserInfo = () => {
   const ua = navigator.userAgent
   let tem
   const match = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []

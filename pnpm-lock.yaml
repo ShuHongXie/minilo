@@ -561,6 +561,9 @@ importers:
       cos-nodejs-sdk-v5:
         specifier: ^2.15.4
         version: 2.15.4
+      web-vitals:
+        specifier: ^5.1.0
+        version: 5.1.0
     devDependencies:
       '@rollup/plugin-terser':
         specifier: ^0.4.0
@@ -9083,6 +9086,9 @@ packages:
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
+
+  web-vitals@5.1.0:
+    resolution: {integrity: sha512-ArI3kx5jI0atlTtmV0fWU3fjpLmq/nD3Zr1iFFlJLaqa5wLBkUSzINwBPySCX/8jRyjlmy1Volw1kz1g9XE4Jg==}
 
   webidl-conversions@8.0.0:
     resolution: {integrity: sha512-n4W4YFyz5JzOfQeA8oN7dUYpR+MBP3PIUsn2jLjWXwK5ASUzt0Jc/A5sAUZoCYFJRGF0FBKJ+1JjN43rNdsQzA==}
@@ -18821,6 +18827,8 @@ snapshots:
   wcwidth@1.0.1:
     dependencies:
       defaults: 1.0.4
+
+  web-vitals@5.1.0: {}
 
   webidl-conversions@8.0.0: {}
 

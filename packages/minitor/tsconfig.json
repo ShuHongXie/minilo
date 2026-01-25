@@ -11,5 +11,5 @@
     "moduleResolution": "node",
     "lib": ["es2015", "dom"]
   },
-  "include": ["core/**/*", "plugin/**/*", "index.ts"]
+  "include": ["core/**/*", "plugin/**/*", "screen/**/*", "vital/**/*", "index.ts"]
 }
