@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, defineProps, defineEmits } from 'vue'
-
-// 组件 props 类型定义
-const props = defineProps<{
-  msg?: string
-}>()
+import { ref, reactive, onMounted } from 'vue'
 
 // 组件 emits 类型定义
 const emits = defineEmits<{
@@ -31,7 +26,7 @@ const increment = () => {
 
 <template>
   <div class="component-name">
-    <h1>{{ props.msg || 'Hello World' }}</h1>
+    <h1>{{ 'Hello World' }}</h1>
     <button @click="increment">Count: {{ count }}</button>
   </div>
 </template>

@@ -1,12 +1,8 @@
 import type { App, Plugin } from 'vue'
 import type { Router, RouteLocationNormalized } from 'vue-router'
-// 严格按 npm 主页导入：仅导入官方暴露的 API
-// 注意：如需使用归因数据，请将导入路径改为 'web-vitals/attribution'
 import { onCLS, onLCP, onINP, onFCP, onTTFB, type Metric, type ReportOpts } from 'web-vitals'
-// 复用你的可靠上报方法（需确保此文件存在）
 import { sendErrorData } from '../core/sender'
 
-// ===================== 核心类型定义（严格对齐官方） =====================
 /**
  * 插件配置项（扩展官方配置，适配 Vue 生态）
  */
@@ -283,7 +279,6 @@ export const WebVitalsPlugin: Plugin = {
   }
 }
 
-// ===================== 类型扩展（TS 类型安全） =====================
 declare module 'vue' {
   interface ComponentCustomProperties {
     $webVitals: {
