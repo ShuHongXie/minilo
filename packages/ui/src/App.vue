@@ -34,23 +34,7 @@ onMounted(() => {
 
 <template>
   <div class="app-container">
-    <!-- <testSearch></testSearch> -->
-    <!-- <testRangeInput></testRangeInput> -->
-    <!-- <treeSelectDialog></treeSelectDialog> -->
-    <!-- <imageUploadPro /> -->
-    <!-- <testVirtualList /> -->
-    <testErrorMinitor />
-    <testSourceMap />
-    <!-- <div class="source-map-viewer">{{ code }}</div> -->
-    <!-- <prism-editor
-      class="my-editor"
-      v-model="code"
-      :highlight="highlighter"
-      readonly
-      :line-numbers="true"
-      ref="editorRef"
-    >
-    </prism-editor> -->
+    <router-view />
   </div>
 </template>
 

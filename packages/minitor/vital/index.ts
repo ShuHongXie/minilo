@@ -1,10 +1,8 @@
-// src/plugins/web-vitals.ts
 import type { App, Plugin } from 'vue'
 import type { Router, RouteLocationNormalized } from 'vue-router'
 // 严格按 npm 主页导入：仅导入官方暴露的 API
 // 注意：如需使用归因数据，请将导入路径改为 'web-vitals/attribution'
 import { onCLS, onLCP, onINP, onFCP, onTTFB, type Metric, type ReportOpts } from 'web-vitals'
-
 // 复用你的可靠上报方法（需确保此文件存在）
 import { sendErrorData } from '../core/sender'
 
@@ -75,9 +73,35 @@ const getDeviceUuid = (): string => {
 }
 
 /**
- * 去重缓存：避免同一指标重复上报
+ * 当前页面上下文（用于 SPA 路由切换时更新）
  */
-const reportedMetrics = new Set<string>()
+const currentPage = {
+  path: typeof window !== 'undefined' ? window.location.pathname : '',
+  name: 'FirstLoad'
+}
+
+/**
+ * 去重缓存：避免同一指标重复上报
+ * 使用 Map 存储 "指标名称-页面路径-指标值" 作为键，避免重复上报
+ * 注意：不使用指标ID，因为 web-vitals 的 ID 在会话期间可能保持不变
+ */
+const reportedMetrics = new Map<string, number>()
+
+/**
+ * 重置去重缓存（路由切换时调用）
+ * 清除目标页面的指标缓存，允许重新采集
+ */
+const resetReportedMetrics = (pagePath: string) => {
+  // 清除目标页面的所有指标记录
+  const keysToDelete: string[] = []
+  reportedMetrics.forEach((_, key) => {
+    if (key.includes(`-${pagePath}-`)) {
+      keysToDelete.push(key)
+    }
+  })
+  keysToDelete.forEach((key) => reportedMetrics.delete(key))
+  console.log(`🧹 清除页面 ${pagePath} 的指标缓存，共 ${keysToDelete.length} 条`)
+}
 
 /**
  * 构造上报数据（严格对齐官方 Metric 结构）
@@ -89,7 +113,6 @@ const buildReportData = (
   options: WebVitalsPluginOptions
 ): WebVitalsReportData => {
   return {
-    // 官方 Metric 字段
     name: metric.name,
     value: metric.value,
     delta: metric.delta,
@@ -120,9 +143,10 @@ const reportMetric = (
   pageName: string,
   options: WebVitalsPluginOptions
 ): void => {
-  // 去重：同一指标 ID 仅上报一次
-  if (reportedMetrics.has(metric.id)) return
-  reportedMetrics.add(metric.id)
+  // 去重：同一页面的同一指标 ID 仅上报一次
+  const cachedPath = reportedMetrics.get(metric.id)
+  if (cachedPath === pagePath) return
+  reportedMetrics.set(metric.id, pagePath)
 
   // 构建数据 + 选择上报方式
   const reportData = buildReportData(metric, pagePath, pageName, options)
@@ -142,89 +166,59 @@ const reportMetric = (
 
 // ===================== 核心采集逻辑（严格按 npm 规范实现） =====================
 /**
- * 初始化单页面指标采集
- * @returns 销毁监听的函数（用于路由切换时清理）
+ * 初始化单页面指标采集（支持多次调用，路由切换时重新初始化）
  */
-const initVitalsCollection = (
-  pagePath: string,
-  pageName: string,
-  options: WebVitalsPluginOptions
-): (() => void) => {
+const initVitalsCollection = (options: WebVitalsPluginOptions): void => {
+  console.log('Initiating metrics collection for:', currentPage.path)
   const { metrics = ['CLS', 'LCP', 'INP', 'FCP', 'TTFB'], reportFinalOnly = true } = options
 
-  // 官方配置项：buffered=true 捕获历史指标，once=true 仅上报最终值
-  const baseOpts: ReportOpts & { buffered?: boolean; once?: boolean } = {
+  // 官方配置项：buffered=true 捕获历史指标，reportAllChanges 控制是否上报所有变化
+  const baseOpts: ReportOpts & { buffered?: boolean } = {
     buffered: true,
-    once: reportFinalOnly
+    reportAllChanges: !reportFinalOnly
   }
 
-  // 存储各指标的监听销毁函数
-  const disposeFns: (() => void)[] = []
-
-  // 1. 采集 CLS（累积布局偏移）- 严格按 npm 示例
+  // 1. 采集 CLS（累积布局偏移）
   if (metrics.includes('CLS')) {
-    const dispose = onCLS((metric) => {
-      reportMetric(metric, pagePath, pageName, options)
+    onCLS((metric) => {
+      reportMetric(metric, currentPage.path, currentPage.name, options)
     }, baseOpts as ReportOpts)
-    disposeFns.push(() => dispose)
   }
 
-  // 2. 采集 LCP（最大内容绘制）- 严格按 npm 示例
+  // 2. 采集 LCP（最大内容绘制）
   if (metrics.includes('LCP')) {
-    const dispose = onLCP((metric) => {
-      reportMetric(metric, pagePath, pageName, options)
+    onLCP((metric) => {
+      reportMetric(metric, currentPage.path, currentPage.name, options)
     }, baseOpts as ReportOpts)
-    disposeFns.push(() => dispose)
   }
 
   // 3. 采集 INP（交互到下一次绘制）- npm 强调：需等待页面卸载才触发最终值
   if (metrics.includes('INP')) {
-    const dispose = onINP(
-      (metric) => {
-        reportMetric(metric, pagePath, pageName, options)
-      },
-      {
-        ...baseOpts,
-        // INP 特殊配置：确保捕获所有交互后上报最终值
-        reportAllChanges: !reportFinalOnly
-      } as ReportOpts
-    )
-    disposeFns.push(() => dispose)
+    onINP((metric) => {
+      reportMetric(metric, currentPage.path, currentPage.name, options)
+    }, baseOpts as ReportOpts)
   }
 
-  // 4. 采集 FCP（首次内容绘制）- 严格按 npm 示例
+  // 4. 采集 FCP（首次内容绘制）
   if (metrics.includes('FCP')) {
-    const dispose = onFCP((metric) => {
-      reportMetric(metric, pagePath, pageName, options)
+    onFCP((metric) => {
+      console.log('FCP', metric)
+      reportMetric(metric, currentPage.path, currentPage.name, options)
     }, baseOpts as ReportOpts)
-    disposeFns.push(() => dispose)
   }
 
-  // 5. 采集 TTFB（首字节时间）- 严格按 npm 示例
+  // 5. 采集 TTFB（首字节时间）
   if (metrics.includes('TTFB')) {
-    const dispose = onTTFB((metric) => {
-      reportMetric(metric, pagePath, pageName, options)
+    onTTFB((metric) => {
+      reportMetric(metric, currentPage.path, currentPage.name, options)
     }, baseOpts as ReportOpts)
-    disposeFns.push(() => dispose)
-  }
-
-  // 返回销毁函数：路由切换时清理监听，避免内存泄漏
-  return () => {
-    disposeFns.forEach((dispose) => {
-      try {
-        dispose()
-      } catch (err) {
-        console.warn('Web Vitals 监听销毁失败:', err)
-      }
-    })
-    // 清空当前页面的去重缓存
-    reportedMetrics.clear()
   }
 }
 
 // ===================== Vue3 插件核心（适配生态） =====================
-const WebVitalsPlugin: Plugin = {
+export const WebVitalsPlugin: Plugin = {
   install(app: App, options: WebVitalsPluginOptions) {
+    console.log('Web Vitals Plugin installed')
     // 最终配置（合并默认值）
     const finalOptions = {
       reportUrl: '/api/v1/monitor/web-vitals',
@@ -233,61 +227,57 @@ const WebVitalsPlugin: Plugin = {
       ...options
     }
 
-    // 存储当前页面的销毁函数（路由切换时清理）
-    let currentDispose: (() => void) | null = null
-
-    // 1. 首屏采集（页面加载完成后）
+    // 1. 首屏采集（页面加载完成后，只初始化一次）
     const initFirstLoad = () => {
-      if (currentDispose) currentDispose()
-      currentDispose = initVitalsCollection(window.location.pathname, 'FirstLoad', finalOptions)
+      console.log('Initiating first load metrics collection')
+      initVitalsCollection(finalOptions)
     }
 
     // 确保首屏采集时机正确（DOM 加载完成后）
     if (document.readyState === 'complete') {
+      console.log('DOM is fully loaded')
       initFirstLoad()
     } else {
+      console.log('DOM is not fully loaded, waiting for load event')
       window.addEventListener('load', initFirstLoad)
     }
 
-    // 2. 路由切换采集（核心：先销毁旧监听，再初始化新监听）
+    // 2. 路由切换采集（更新上下文 + 重置去重 + 重新初始化指标收集）
     if (finalOptions.router) {
       finalOptions.router.afterEach((to: RouteLocationNormalized) => {
-        // 延迟采集：等待页面渲染完成（避免采集过早）
+        // 延迟执行，确保 DOM 更新完成
         setTimeout(() => {
-          // 清理上一页的监听（避免内存泄漏 + 重复上报）
-          if (currentDispose) currentDispose()
-          // 初始化当前页的采集
-          currentDispose = initVitalsCollection(
-            to.path,
-            (to.name as string) || 'UnknownPage',
-            finalOptions
-          )
+          // 更新页面上下文
+          currentPage.path = to.path
+          currentPage.name = (to.name as string) || 'UnknownPage'
+
+          // 重置当前页面的去重缓存
+          resetReportedMetrics(currentPage.path)
+
+          // 重新初始化指标收集（关键：重新注册监听器）
+          initVitalsCollection(finalOptions)
         }, finalOptions.delay)
       })
     }
 
-    // 3. 页面卸载时清理监听（兜底）
-    window.addEventListener('beforeunload', () => {
-      if (currentDispose) currentDispose()
-    })
-
-    // 4. 挂载全局方法（支持组件内手动调用）
+    // 3. 挂载全局方法（支持组件内手动调用）
     app.config.globalProperties.$webVitals = {
       /**
-       * 手动初始化采集
+       * 手动更新采集上下文并重新初始化
        * @param pagePath 页面路径
        * @param pageName 页面名称
        */
       init: (pagePath: string, pageName: string) => {
-        if (currentDispose) currentDispose()
-        currentDispose = initVitalsCollection(pagePath, pageName, finalOptions)
+        currentPage.path = pagePath
+        currentPage.name = pageName
+        resetReportedMetrics(pagePath)
+        initVitalsCollection(finalOptions)
       },
       /**
-       * 手动销毁采集
+       * 手动销毁采集（不支持）
        */
       dispose: () => {
-        if (currentDispose) currentDispose()
-        currentDispose = null
+        console.warn('Web Vitals 监听无法手动销毁（库限制），仅重置上下文。')
       }
     }
   }
@@ -302,5 +292,3 @@ declare module 'vue' {
     }
   }
 }
-
-export default WebVitalsPlugin

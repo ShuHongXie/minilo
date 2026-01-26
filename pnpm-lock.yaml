@@ -139,7 +139,7 @@ catalogs:
       specifier: 11.1.11
       version: 11.1.11
     vue-router:
-      specifier: ^4.5.1
+      specifier: 4.5.1
       version: 4.5.1
     vue-tsc:
       specifier: 2.2.12
@@ -646,6 +646,9 @@ importers:
       vue-cropper:
         specifier: ^1.1.4
         version: 1.1.4
+      vue-router:
+        specifier: 'catalog:'
+        version: 4.5.1(vue@3.5.26(typescript@5.9.3))
     devDependencies:
       '@minilo/utils':
         specifier: ^0.0.9

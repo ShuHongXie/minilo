@@ -122,21 +122,20 @@ const generateCodeWithHighlight = (code: string, errorLineNum: number): string =
 }
 
 onMounted(() => {
-  axios
-    .post('/minitor/analyze', {
-      error: `Error: 这是 Vue 组件内部触发的错误！\n    at btnVueClick (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:7876:17)\n    at callWithErrorHandling (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:2025:23)\n    at callWithAsyncErrorHandling (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:2032:21)\n    at HTMLButtonElement.invoker (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:7382:9)`
-    })
-    .then((res) => {
-      code.value = res.data.sourceContent
-      errorLine.value = res.data.line
-      errorColumn.value = res.data.column
-      codeLines.value = code.value.split('\n')
-      console.log('codeLines', codeLines.value)
-
-      nextTick(() => {
-        console.log('代码已更新，错误位置已高亮')
-      })
-    })
+  // axios
+  //   .post('/minitor/analyze', {
+  //     error: `Error: 这是 Vue 组件内部触发的错误！\n    at btnVueClick (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:7876:17)\n    at callWithErrorHandling (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:2025:23)\n    at callWithAsyncErrorHandling (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:2032:21)\n    at HTMLButtonElement.invoker (http://172.18.108.26:8080/assets/index-bUNAx0aa.js:7382:9)`
+  //   })
+  //   .then((res) => {
+  //     code.value = res.data.sourceContent
+  //     errorLine.value = res.data.line
+  //     errorColumn.value = res.data.column
+  //     codeLines.value = code.value.split('\n')
+  //     console.log('codeLines', codeLines.value)
+  //     nextTick(() => {
+  //       console.log('代码已更新，错误位置已高亮')
+  //     })
+  //   })
 })
 </script>
 

@@ -69,7 +69,8 @@
     "highlight.js": "^11.11.1",
     "marked": "^17.0.1",
     "vue": "catalog:",
-    "vue-cropper": "^1.1.4"
+    "vue-cropper": "^1.1.4",
+    "vue-router": "catalog:"
   },
   "devDependencies": {
     "@minilo/utils": "workspace:*",

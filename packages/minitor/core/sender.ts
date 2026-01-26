@@ -8,22 +8,23 @@ import { getBrowserInfo } from './utils'
  * @param {string} url 目标API端点URL
  */
 export const sendErrorData = (errorData: Record<string, any>, url: string) => {
+  console.log('sendErrorData', errorData, url)
   // 获取浏览器信息并合并到错误数据中
-  const browserInfo = getBrowserInfo()
-  const dataToSend = {
-    ...errorData,
-    ...browserInfo
-  }
+  // const browserInfo = getBrowserInfo()
+  // const dataToSend = {
+  //   ...errorData,
+  //   ...browserInfo
+  // }
 
-  if (navigator.sendBeacon) {
-    const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' })
-    navigator.sendBeacon(url, blob)
-  } else {
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dataToSend),
-      keepalive: true // 即使页面关闭也能发送请求，作用类似 sendBeacon
-    }).catch((error) => console.error('Error reporting failed:', error))
-  }
+  // if (navigator.sendBeacon) {
+  //   const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' })
+  //   navigator.sendBeacon(url, blob)
+  // } else {
+  //   fetch(url, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify(dataToSend),
+  //     keepalive: true // 即使页面关闭也能发送请求，作用类似 sendBeacon
+  //   }).catch((error) => console.error('Error reporting failed:', error))
+  // }
 }
