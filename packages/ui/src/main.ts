@@ -20,20 +20,20 @@ app.use(VueErrorMonitorPlugin, {
   environment: 'dev'
 })
 
-app.use(WebVitalsPlugin, {
-  projectName: 'ui',
-  buildVersion: 'v1.0.0', // 建议从 package.json 读取
-  router, // 传入路由实例，自动切换采集
-  metrics: ['CLS', 'LCP', 'INP', 'FCP', 'TTFB'], // 推荐只采集核心指标
-  getUserId: () => {
-    // 从本地存储获取用户ID（示例）
-    const user = localStorage.getItem('user_info')
-    return user ? JSON.parse(user).id : null
-  }
-  // 可选：自定义上报（覆盖默认的 sendErrorData）
-  // customReporter: (data) => {
-  //   console.log('Web Vitals 数据:', data)
-  // }
-})
+// app.use(WebVitalsPlugin, {
+//   projectName: 'ui',
+//   buildVersion: 'v1.0.0', // 建议从 package.json 读取
+//   router, // 传入路由实例，自动切换采集
+//   metrics: ['CLS', 'LCP', 'INP', 'FCP', 'TTFB'], // 推荐只采集核心指标
+//   getUserId: () => {
+//     // 从本地存储获取用户ID（示例）
+//     const user = localStorage.getItem('user_info')
+//     return user ? JSON.parse(user).id : null
+//   }
+//   // 可选：自定义上报（覆盖默认的 sendErrorData）
+//   // customReporter: (data) => {
+//   //   console.log('Web Vitals 数据:', data)
+//   // }
+// })
 
 app.mount('#app')

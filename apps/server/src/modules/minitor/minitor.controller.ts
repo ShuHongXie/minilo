@@ -38,9 +38,9 @@ export class MinitorController {
   @Post('/report')
   @ApiOperation({ summary: '上报监控数据' })
   @Public()
-  report(@Body() data: CreateMinitorDto) {
+  report(@Body() data: CreateMinitorDto[]) {
     console.log('上报的监控数据:', data)
-    return this.minitorService.saveMinitorData(data)
+    return this.minitorService.saveMinitorDataBatch(data)
   }
 
   @Post('/mapping')

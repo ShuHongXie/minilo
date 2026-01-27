@@ -15,24 +15,44 @@
   ],
   "exports": {
     ".": {
+      "development": {
+        "types": "./core/index.ts",
+        "import": "./core/index.ts",
+        "require": "./core/index.ts"
+      },
       "types": "./dist/core/index.d.ts",
       "import": "./dist/core/index.esm.js",
       "require": "./dist/core/index.cjs.js",
       "default": "./dist/core/index.esm.js"
     },
     "./plugin": {
+      "development": {
+        "types": "./plugin/index.ts",
+        "import": "./plugin/index.ts",
+        "require": "./plugin/index.ts"
+      },
       "types": "./dist/plugin/index.d.ts",
       "import": "./dist/plugin/index.esm.js",
       "require": "./dist/plugin/index.cjs.js",
       "default": "./dist/plugin/index.esm.js"
     },
     "./screen": {
+      "development": {
+        "types": "./screen/index.ts",
+        "import": "./screen/index.ts",
+        "require": "./screen/index.ts"
+      },
       "types": "./dist/screen/index.d.ts",
       "import": "./dist/screen/index.esm.js",
       "require": "./dist/screen/index.cjs.js",
       "default": "./dist/screen/index.esm.js"
     },
     "./vital": {
+      "development": {
+        "types": "./vital/index.ts",
+        "import": "./vital/index.ts",
+        "require": "./vital/index.ts"
+      },
       "types": "./dist/vital/index.d.ts",
       "import": "./dist/vital/index.esm.js",
       "require": "./dist/vital/index.cjs.js",

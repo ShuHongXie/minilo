@@ -43,7 +43,7 @@ export class MinitorService {
   }
 
   /**
-   * 保存监控数据
+   * 保存单个监控数据
    * @param data 监控数据
    * @returns 保存结果
    */
@@ -97,6 +97,84 @@ export class MinitorService {
     } catch (error) {
       console.error('保存监控数据失败:', error)
       return ResultData.fail('保存监控数据失败', ApiErrorCode.COMMON_CODE, {
+        error: (error as Error).message
+      })
+    }
+  }
+
+  /**
+   * 批量保存监控数据
+   * @param dataArray 监控数据数组
+   * @returns 保存结果
+   */
+  async saveMinitorDataBatch(dataArray: CreateMinitorDto[]) {
+    try {
+      const savedResults: MinitorData[] = []
+      const failedResults: Array<{ data: CreateMinitorDto; error: string }> = []
+
+      for (const data of dataArray) {
+        try {
+          // 1. 生成堆栈哈希值
+          const stack = data.stack || ''
+          const stackHash = crypto.createHash('md5').update(stack).digest('hex')
+
+          // 2. 检查是否已存在相同的错误记录（同一项目、同一版本、同一消息和堆栈哈希）
+          const existing = await this.minitorDataRepository.findOne({
+            where: {
+              projectName: data.projectName,
+              buildVersion: data.buildVersion,
+              message: data.message,
+              stackHash: stackHash
+            }
+          })
+
+          if (existing) {
+            console.log('错误记录已存在，跳过插入:', data.message)
+            continue
+          }
+
+          // 3. 处理 errorType
+          let errorType: ErrorType | undefined
+          if (typeof data.errorType === 'string') {
+            const num = parseInt(data.errorType, 10)
+            errorType = isNaN(num) ? undefined : (num as ErrorType)
+          } else {
+            errorType = data.errorType
+          }
+
+          // 4. 创建监控数据实例
+          const minitorData = this.minitorDataRepository.create({
+            ...data,
+            errorType,
+            stackHash,
+            // 确保 timestamp 是 Date 类型
+            timestamp:
+              data.timestamp instanceof Date
+                ? data.timestamp
+                : data.timestamp
+                  ? new Date(data.timestamp)
+                  : new Date()
+          })
+
+          // 5. 保存到数据库
+          const savedData = await this.minitorDataRepository.save(minitorData)
+          savedResults.push(savedData)
+        } catch (error) {
+          console.error('保存单条监控数据失败:', error, data)
+          failedResults.push({ data, error: (error as Error).message })
+        }
+      }
+
+      return ResultData.success('批量保存监控数据完成', {
+        total: dataArray.length,
+        successCount: savedResults.length,
+        failedCount: failedResults.length,
+        savedData: savedResults,
+        failedData: failedResults
+      })
+    } catch (error) {
+      console.error('批量保存监控数据失败:', error)
+      return ResultData.fail('批量保存监控数据失败', ApiErrorCode.COMMON_CODE, {
         error: (error as Error).message
       })
     }

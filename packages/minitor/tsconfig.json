@@ -9,7 +9,16 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
+    "downlevelIteration": true,
     "lib": ["es2015", "dom"]
   },
-  "include": ["core/**/*", "plugin/**/*", "screen/**/*", "vital/**/*", "index.ts"]
+  "include": [
+    "core/**/*",
+    "plugin/**/*",
+    "screen/**/*",
+    "vital/**/*",
+    "index.ts",
+    "../test.ts",
+    "test.ts"
+  ]
 }

@@ -62,7 +62,6 @@ export const extractFirstErrorFile = (stack: string | null | undefined): string 
   if (!stack || typeof stack !== 'string') {
     return null
   }
-
   // 正则匹配: http(s)://域名/路径/文件名:行号:列号
   // 示例: http://172.18.108.26:8080/assets/index-Cic8HWFC.js:161836:34
   const regex = /https?:\/\/[^/]+\/(?:.*\/)?(\S+\.js):(\d+):(\d+)/
@@ -74,4 +73,18 @@ export const extractFirstErrorFile = (stack: string | null | undefined): string 
   }
 
   return null
+}
+
+/**
+ * 生成错误的唯一标识（基于错误核心信息的哈希）
+ * @param errorData 错误数据
+ * @returns 唯一标识字符串
+ */
+export function generateErrorKey(errorData: Record<string, any>): string {
+  // 提取错误核心特征：消息+堆栈+文件路径（保证同类型错误生成相同key）
+  const keyStr = `${errorData.message || ''}-${errorData.stack || ''}`
+  // 简单哈希（生产环境可替换为md5库，如crypto-js）
+  return Array.from(new TextEncoder().encode(keyStr))
+    .reduce((hash, char) => (hash << 5) - hash + char, 0)
+    .toString()
 }

@@ -81,7 +81,7 @@ const currentPage = {
  * 使用 Map 存储 "指标名称-页面路径-指标值" 作为键，避免重复上报
  * 注意：不使用指标ID，因为 web-vitals 的 ID 在会话期间可能保持不变
  */
-const reportedMetrics = new Map<string, number>()
+const reportedMetrics = new Map<string, string>()
 
 /**
  * 重置去重缓存（路由切换时调用）
@@ -149,7 +149,7 @@ const reportMetric = (
   const reporter =
     options.customReporter ||
     ((data) => {
-      sendErrorData(data, options.reportUrl || '/api/v1/monitor/web-vitals')
+      // sendErrorData(data, options.reportUrl || '/api/v1/monitor/web-vitals')
     })
 
   // 上报（捕获错误，不影响主流程）
